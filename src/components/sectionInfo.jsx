@@ -1,5 +1,4 @@
 
-import ReactImage from "../assets/mobile_app.svg";
 
 export function InfoSection({ descriptionProfile, info, info2 }) {
   return (
@@ -21,7 +20,7 @@ export function InfoSection({ descriptionProfile, info, info2 }) {
         </span>
       </aside>
       <aside className="image-container">
-        <img src={ReactImage} alt="Programación" className="info-image" />
+        <img src='/mobile_app.svg' alt="Programación" className="info-image" />
       </aside>
     </div>
   );

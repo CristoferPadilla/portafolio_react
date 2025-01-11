@@ -2,6 +2,10 @@ export function AbilitysList({ abilities }) {
   return (
     <article className="ab-list-container">
       <h3 className="info-title">Habilidades</h3>
+      <span>
+        Las habilidades que he adquirido en el transcurso de mi carrera
+        profesional.
+      </span>
       <ul className="ab-list">
         {abilities.map(({ name, description, icon, years }) => (
           <li key={name} className="ab-list-item">
