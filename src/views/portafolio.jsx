@@ -4,6 +4,7 @@ import { InfoSection } from "../components/sectionInfo";
 import { AbilitysList } from "../components/abilitysList";
 import { descriptionProfile, myAbilities, myProjects } from "../data/data";
 import {MyWork} from "../components/experienceSection";
+import {ContactSection} from "../components/contactSection";
 
 
 export function Portafolio() {
@@ -29,8 +30,8 @@ export function Portafolio() {
                 <nav className="portafolio-nav">
                     <h1 className="portafolio-title">Bienvenido a mi portafolio</h1>
                     <ul className="portafolio-ul">
-                        <PortafolioLi nameSection="Habilidades" asection="#about" />
-                        <PortafolioLi nameSection="Proyectos" asection="#projects" />
+                        <PortafolioLi nameSection="Habilidades" asection="#myAbilities" />
+                        <PortafolioLi nameSection="Proyectos" asection="#myWork" />
                         <PortafolioLi nameSection="Contacto" asection="#contact" />
                     </ul>
                 </nav>
@@ -42,7 +43,7 @@ export function Portafolio() {
                 <MyWork myWork={myProjects}/>
             </main>
             <footer className="portafolio-footer">
-                <p>© Cristofer Padilla 2023</p>
+                <ContactSection/>
             </footer>
         </section>
     );

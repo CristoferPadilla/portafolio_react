@@ -1,6 +1,6 @@
 export function AbilitysList({ abilities }) {
   return (
-    <article className="ab-list-container">
+    <article className="ab-list-container" id="myAbilities">
       <h3 className="info-title">Habilidades</h3>
       <span>
         Las habilidades que he adquirido en el transcurso de mi carrera

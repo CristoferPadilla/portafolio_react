@@ -1,3 +1,4 @@
+/* Header */
 .portafolio-container{
     display: flex;
     flex-direction: column;
@@ -13,17 +14,6 @@
     opacity: 0; 
 }
 
-@media (max-width: 700px) {
-    .portafolio-nav {
-        flex-direction: column;
-    }
-    .portafolio-li {
-        justify-content: center;
-    }
-    .portafolio-li a {
-        padding: 5px;
-    }
-}
 .portafolio-nav{
     display: flex;
     justify-content: center; 
@@ -76,6 +66,30 @@
     10% { border-color: #243B55; }
 }
 
+@media (max-width: 700px) {
+    .portafolio-nav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; 
+        width: 100%; 
+        justify-content: space-between;
+    }
+    .portafolio-ul{ 
+        display: none;
+    }
+    @keyframes typing {
+        from { width: 0, } 
+        to { width: 87% } 
+    }
+      
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        10% { border-color: #243B55; }
+    }
+}
+
+/* Info Section */
 .info-container{
     justify-content: center;
     display: flex;
@@ -85,24 +99,57 @@
     opacity: 0; 
     animation: fadeIn 1s forwards; 
 }
-.info-title{
-    font-size: 2em;
-    color: #fff;
 
-}
 .info-description{
     font-size: .9em;
     text-align: justify;
     color: #fff;
-
-
 }
+
+.info-title {
+    font-size: 2em;
+    color: #fff;
+    text-align: start;
+    margin-bottom: 20px; 
+}
+.image-container{
+    display: flex;
+}
+
 .info-image{
     width: 450px;
     height: 450px;
     opacity: 0; 
     animation: fadeIn 3s forwards; 
-
+}
+@media (max-width: 700px) {
+    .info-container{
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 20px;
+        padding: 20px;
+        opacity: 0; 
+        animation: fadeIn 1s forwards; 
+    }
+    .info-title{
+        font-size: 0.95em;
+    }
+    .info-description{
+        font-size: .6em;
+        text-align: justify;
+        color: #fff;
+    }
+    .info-span{
+        font-size: .6em;
+    }
+    .info-image{
+        width: 100px;
+        height: 100px;
+        opacity: 0; 
+        animation: fadeIn 3s forwards; 
+    }
 }
 
 @keyframes fadeIn {
@@ -115,6 +162,8 @@
         transform: translateY(0); 
     }
 }
+
+/* About Section */
 .ab-list-container {
     flex-direction: row;
     flex-wrap: wrap;
@@ -223,6 +272,52 @@
     }
 }
 
+@media (max-width: 700px) {
+    .ab-list-container {
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+    }
+    .ab-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        padding: 10px;
+    }
+    .ab-list-item {
+        width: calc(50% - 15px);
+        height: 120px;
+        padding: 15px;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+    .ab-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .ab-name {
+        font-size: 1em;
+    }
+    .ab-description {
+        font-size: 0.8em;
+        display: none;
+    }
+    .ab-years {
+        display: none;
+        font-size: 0.8em;
+    }
+    @keyframes imageAnimation{
+        from {
+            transform: translateY(0px); 
+        }
+        to {
+            transform: translate(40px, 25px); 
+        }
+    }
+}
+
+/* Experience Section */
 .experience-article {
     background-color: #1a1f24;
     color: #fff;
@@ -261,51 +356,265 @@
     line-height: 1.5;
     color: #fff;
 }
-.my-work-container{
+
+/* My Work Section */
+.my-work-container {
+    flex-direction: column; 
+    align-items: start;   
+    gap: 20px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.my-work-list-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
-    padding: 20px;
+    flex-wrap: wrap;
 }
-.my-work-list-container{
+
+.my-work-list-container {
     background-color: #1F2833;
-    height: 420px;
-    width:  350px;
+    height: 450px;
+    width: 350px;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 
-}
-.my-work-name{
-    font-size: 1.2em;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.my-work-name {
+    font-size: 1.2em;
     color: #fff;
     padding: 10px;
-    text-align: center;
-    justify-self: center;
 }
 
-.my-work-image{
-    display: flex;
-    width: 100%;
+.my-work-image {
+    width: 90%;
     height: 40%;
+    margin: 20px;
     background-position: center top;
     background-repeat: no-repeat;
     border-radius: 0.8rem;
     border: 1px solid rgba(43, 105, 251, 0.12);
     cursor: pointer;
-    transition: 0.3s ease-in-out;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
-.my-work-description{
-    font-size: .8em;
+
+.my-work-description {
+    font-size: 0.8em;
     color: #fff;
     padding: 10px;
-    display: flex;
     text-align: justify;
 }
-.my-work-image:hover{
-    transform: scale(1.1);
+
+.my-work-image:hover {
+    transform: scale(1.08);
     transition: transform 0.3s ease;
     cursor: pointer;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+  
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+  
+.modal-overlay.close {
+    opacity: 0;
+    visibility: hidden;
+    transition: fadeOutOverlay 0.3s ease, visibility 0s linear 0s;
+}
+  
+.modal-content {
+    max-width: 80%;
+    max-height: 100%;
+    animation: scaleIn 0.3s ease-in-out;
+    transition: transform 0.3s ease;
+        
+}
+  
+.expanded-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    animation: fadeIn 0.3s ease-in-out;
+}
+  
+@keyframes scaleIn {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1);
+    }
+}
+  
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+@keyframes scaleOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+}
+  
+@keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+}
+  
+.modal-overlay.close {
+    animation: fadeOutOverlay 0.3s ease-out forwards;
+}
+  
+@keyframes fadeOutOverlay {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+}
+@media (max-width: 700px) {
+    .my-work-container {
+        padding: 10px;
+        margin: 10px;
+        gap: 15px;
+    }
+
+    .my-work-list-wrapper {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .my-work-list-container {
+        width: 250px;
+        height: 320px; 
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .my-work-name {
+        font-size: 1em;
+        padding: 5px;
+    }
+
+    .my-work-image {
+        width: 100%;
+        height: 50%;
+        margin: 5px 0;
+    }
+
+    .my-work-description {
+        font-size: 0.6em;
+        text-align: justify;
+        padding: 5px;
+    }
+}
+
+/* Contact Section */
+.contact-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+.contact-item{
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    list-style: none;
+    margin: 10px;
+}
+
+.contact-list-item{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #5A4FCF;
+    color: #fff;
+    margin: 10px;
+}
+.contact-link{
+    text-decoration: none;
+    color: #fff;    
+}
+
+.contact-link:hover{
+    text-decoration: none;
+    color: blue;
+}
+    
+@media (max-width: 700px) {
+    .contact-section {
+        gap: 10px;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .contact-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+        gap: 10px;
+        margin: 5px 0;
+    }
+    .contact-item{
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        color: #fff;
+        list-style: none;
+        margin: 10px;
+        font-size: 0.8em;
+    }
+    .contact-link {
+        font-size: 0.8em;
+        word-break: break-word;
+    }
 }
