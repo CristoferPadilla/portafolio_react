@@ -1,4 +1,6 @@
-# React + Vite
+# Portafolio realizado con REACT & VITE
+
+Es el primer intento de un portafolio que realizo, y que constantemente iré puliendo conforme vaya aprendiendo más sobre el uso de esta Tecnología.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
