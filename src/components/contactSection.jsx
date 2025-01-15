@@ -25,9 +25,9 @@ export function ContactSection() {
               Correo:{" "}
               <a
                 className="contact-link"
-                href="mailto:cristpferpadilla0406@gmail.com"
+                href="mailto:cristoferpadilla0406@gmail.com"
               >
-                cristpferpadilla0406@gmail.com
+                cristoferpadilla0406@gmail.com
               </a>
             </li>
             <li className="contact-item">
