@@ -7,13 +7,12 @@ export function AbilitysList({ abilities }) {
         profesional.
       </span>
       <ul className="ab-list">
-        {abilities.map(({ name, description, icon, years }) => (
+        {abilities.map(({ name, description, icon }) => (
           <li key={name} className="ab-list-item">
             <img src={icon} alt={name} className="ab-icon" />
             <div className="ab-list-info">
               <h4 className="ab-name">{name}</h4>
               <p className="ab-description">{description}</p>
-              <p className="ab-years">Experiencia: {years}</p>
             </div>
           </li>
         ))}

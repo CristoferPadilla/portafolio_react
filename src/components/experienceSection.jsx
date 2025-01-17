@@ -10,7 +10,7 @@ export function MyWork({ myWork }) {
   };
 
   const closeModal = () => {
-    setIsOpen(false); // Al hacer clic en el fondo, se cierra el modal
+    setIsOpen(false); 
   };
 
   return (
@@ -30,7 +30,7 @@ export function MyWork({ myWork }) {
               src={image}
               alt={name}
               loading="lazy"
-              onClick={() => openModal(image)} // Al hacer clic, se abre el modal con la imagen
+              onClick={() => openModal(image)} 
             />
             <strong className="my-work-name">{name}</strong>
             <span className="my-work-description">{description}</span>
@@ -41,7 +41,7 @@ export function MyWork({ myWork }) {
       {isOpen && (
         <div
           className={`modal-overlay ${isOpen ? "open" : "close"}`}
-          onClick={closeModal} // Cerrar modal al hacer clic en el fondo
+          onClick={closeModal} 
         >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <img

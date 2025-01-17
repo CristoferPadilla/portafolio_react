@@ -6,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
-export function ContactSection() {
+export function ContactFooter() {
   return (
-    <section id="contact" className="contact-section">
+    <footer id="contact" className="contact-section">
       <h2 className="info-title">Contáctame</h2>
       <p className="info-description">
         Envíame un mensaje si te interesó mi perfil y me pondré en contacto
@@ -78,6 +78,6 @@ export function ContactSection() {
           </ul>
         </div>
       </article>
-    </section>
+    </footer>
   );
 }

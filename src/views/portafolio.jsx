@@ -4,7 +4,7 @@ import { InfoSection } from "../components/sectionInfo";
 import { AbilitysList } from "../components/abilitysList";
 import { descriptionProfile, myAbilities, myProjects } from "../data/data";
 import {MyWork} from "../components/experienceSection";
-import {ContactSection} from "../components/contactSection";
+import {ContactFooter} from "../components/contactFooter";
 
 
 export function Portafolio() {
@@ -36,15 +36,12 @@ export function Portafolio() {
                     </ul>
                 </nav>
             </header>        
-
             <main className="portafolio-main">
                 <InfoSection descriptionProfile={descriptionProfile[0].descriptionSection} info={descriptionProfile[0].info} info2={descriptionProfile[0].info2} />
                 <AbilitysList abilities={myAbilities} />
                 <MyWork myWork={myProjects}/>
             </main>
-            <footer className="portafolio-footer">
-                <ContactSection/>
-            </footer>
+            <ContactFooter/>
         </section>
     );
 }

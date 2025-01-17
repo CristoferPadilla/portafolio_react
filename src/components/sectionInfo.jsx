@@ -2,8 +2,8 @@
 
 export function InfoSection({ descriptionProfile, info, info2 }) {
   return (
-    <div className="info-container">
-      <aside className="info-aside">
+    <article className="info-container">
+      <div className="info-div">
         <h2 className="info-title">
           Acerca de mí
         </h2>
@@ -18,10 +18,10 @@ export function InfoSection({ descriptionProfile, info, info2 }) {
         <span className="info-span">
             <strong>{info2}</strong>
         </span>
-      </aside>
+      </div>
       <aside className="image-container">
         <img src='/portafolio_react/mobile_app.svg' alt="Programación" className="info-image" />
       </aside>
-    </div>
+    </article>
   );
 }
