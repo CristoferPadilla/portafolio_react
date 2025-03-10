@@ -105,4 +105,10 @@ export const myProjects = [
       "En el transcurso de la carrera, junto a un compañero de clases nos propusimos realizar una aplicación móvil para llevar un control de las rutinas de ejercicio, con el fin de mejorar la salud y el bienestar de los usuarios. En este proyecto mi rol fue el de desarrollar la parte móvil con Flutter. Este proyecto nos otorgó un reconocimiento de la Universidad Tecnológica Metropolitana.",
     image: "/portafolio_react/flowfit.png",
   },
+  {
+    name: "Landing page",
+    description:
+      "Landing page para una fletería. Relaizada con React y TailwindCSS. En este proyecto mi rol fue el de desarrollar la parte web con React.",
+    image: "/portafolio_react/FleT.png",
+  },
 ];
