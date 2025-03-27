@@ -1,21 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function FormScreen() {
-    const [projects, setProjects] = useState([{ title: '', description: '', image: null }]);
+    const [projects, setProjects] = useState([{ title: '', description: '', year: '', type_technologies: [], image: null }]);
     const [socialLinks, setSocialLinks] = useState([{ name: '', link: '' }]);
     const [formData, setFormData] = useState({
         full_name: '',
         description: '',
-        type_technologies: '',
-        spoken_languages: '',
-        programming_languages: '',
+        spoken_languages: [],
+        programming_languages: [],
     });
 
-    const [cvFile, setCvFile] = useState(null);  // New state variable for CV file
+    const navigate = useNavigate();
+
+    const [cvFile, setCvFile] = useState(null);
 
 
     const handleAddProject = () => {
-        setProjects([...projects, { title: '', description: '', image: null }]);
+        setProjects([...projects, { title: '', description: '', year: '', type_technologies: [], image: null }]);
     };
 
     const handleRemoveProject = (index) => {
@@ -31,10 +33,24 @@ export function FormScreen() {
     };
 
     const handleProjectChange = (index, event) => {
+        const { name, value } = event.target;
         const newProjects = [...projects];
-        newProjects[index][event.target.name] = event.target.value;
+
+        if (name === 'year') {
+            newProjects[index][name] = parseInt(value, 10) || ''; // Convert to integer, or empty string if not a number
+        } else {
+            newProjects[index][name] = value;
+        }
         setProjects(newProjects);
     };
+
+  const handleProjectTechnologiesChange = (index, event) => {
+    const newProjects = [...projects];
+    newProjects[index].type_technologies = event.target.value
+      .split(",")
+      .map((item) => item.trim());
+    setProjects(newProjects);
+  };
 
     const handleProjectImageChange = (index, event) => {
         const newProjects = [...projects];
@@ -49,10 +65,15 @@ export function FormScreen() {
     };
 
     const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        if (["spoken_languages", "programming_languages"].includes(name)) {
+            setFormData({ ...formData, [name]: value.split(",").map(item => item.trim()) });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
-    const handleCvFileChange = (e) => {  // New handler for CV file change
+    const handleCvFileChange = (e) => {
         setCvFile(e.target.files[0]);
     };
 
@@ -61,49 +82,55 @@ export function FormScreen() {
 
         const formDataToSend = new FormData();
 
-        // Append simple text fields
-        formDataToSend.append("full_name", formData.full_name);
-        formDataToSend.append("description", formData.description);
-        formDataToSend.append("type_technologies", formData.type_technologies);
-        formDataToSend.append("spoken_languages", formData.spoken_languages);
-        formDataToSend.append("programming_languages", formData.programming_languages);
+        const payload = {
+            full_name: formData.full_name,
+            description: formData.description,
+            spoken_languages: formData.spoken_languages,
+            programming_languages: formData.programming_languages,
+            projects: projects.map(project => ({
+                title: project.title,
+                description: project.description,
+                year: project.year ? Number(project.year) : null,
+                type_technologies: project.type_technologies,
+                image_file: project.image ? project.image.name : null
+            })),
+            social_links: socialLinks.map(link => ({
+                name: link.name,
+                link: link.link
+            }))
+        };
 
-        // Append project data, including images
-        projects.forEach((project, index) => {
-            formDataToSend.append(`projects[${index}][title]`, project.title);
-            formDataToSend.append(`projects[${index}][description]`, project.description);
-            if (project.image) {
-                formDataToSend.append(`projects[${index}][image]`, project.image);
-            }
-        });
+        formDataToSend.append("json_payload", JSON.stringify(payload));
 
-        // Append social links
-        socialLinks.forEach((link, index) => {
-            formDataToSend.append(`social_links[${index}][name]`, link.name);
-            formDataToSend.append(`social_links[${index}][link]`, link.link);
-        });
-
-        // Append CV file
         if (cvFile) {
-            formDataToSend.append("cv_file", cvFile); // Append the CV file
+            formDataToSend.append("cv_file", cvFile);
         }
 
+        // Append the project images to the form data
+        projects.forEach((project, index) => {
+            if (project.image) {
+                formDataToSend.append(`project_image_${index}`, project.image);
+            }
+        });
         try {
             const response = await fetch("https://apiport.onrender.com/portfolio", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
-                    "Content-Type": "multipart/form-data",
                 },
                 body: formDataToSend,
             });
 
             if (response.ok) {
                 console.log("Portfolio created successfully!");
+                navigate('/portafolio_react/home');
             } else {
                 console.error("Failed to create portfolio:", response.status);
                 const errorData = await response.json();
-                console.error("Error Data", errorData);
+                console.error("Error Data", errorData,formDataToSend);
+                console.error("Payload", payload);
+                console.log(formDataToSend)
+                console.log(JSON.stringify(payload));
             }
         } catch (error) {
             console.error("Error creating portfolio:", error);
@@ -185,37 +212,15 @@ export function FormScreen() {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                                 id="idiomas"
                                 type="text"
-                                placeholder="Type here"
+                                placeholder="Type here (comma-separated)"
                                 name="spoken_languages"
-                                value={formData.spoken_languages}
+                                value={formData.spoken_languages.join(", ")}
                                 onChange={handleInputChange}
                             />
                             <p className="text-gray-500 text-xs italic">
                                 Ingresa los idiomas que dominas
                             </p>
                         </div>
-
-                        <div className="mt-4">
-                            <label
-                                className="block text-gray-700 text-sm font-bold mb-1"
-                                htmlFor="type_technologies"
-                            >
-                                Type of technologies
-                            </label>
-                            <input
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                                id="type_technologies"
-                                type="text"
-                                name="type_technologies"
-                                placeholder="List your type of technologies, frontend, backend (comma-separated)"
-                                value={formData.type_technologies}
-                                onChange={handleInputChange}
-                            />
-                            <p className="text-gray-500 text-xs italic">
-                                Enter comma-separated technologies
-                            </p>
-                        </div>
-
 
                         <div className="mt-4">
                             <label
@@ -230,7 +235,7 @@ export function FormScreen() {
                                 type="text"
                                 name="programming_languages"
                                 placeholder="List your programming languages (comma-separated)"
-                                value={formData.programming_languages}
+                                value={formData.programming_languages.join(", ")}
                                 onChange={handleInputChange}
                             />
                             <p className="text-gray-500 text-xs italic">
@@ -238,7 +243,7 @@ export function FormScreen() {
                             </p>
                         </div>
 
-                        <div className="mt-4">  {/* CV Upload Section */}
+                        <div className="mt-4">
                             <label
                                 className="block text-gray-700 text-sm font-bold mb-1"
                                 htmlFor="cv_file"
@@ -249,7 +254,7 @@ export function FormScreen() {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                                 id="cv_file"
                                 type="file"
-                                accept=".pdf,.doc,.docx"  // Specify accepted file types
+                                accept=".pdf,.doc,.docx"
                                 onChange={handleCvFileChange}
                             />
                             <p className="text-gray-500 text-xs italic">
@@ -306,7 +311,48 @@ export function FormScreen() {
                                         Escribe una breve descripción del proyecto
                                     </p>
                                 </div>
-
+                                <div className="mt-2">
+                                    <label
+                                        className="block text-gray-700 text-sm font-bold mb-1"
+                                        htmlFor={`project-year-${index}`}
+                                    >
+                                        Year
+                                    </label>
+                                    <input
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                                        id={`project-year-${index}`}
+                                        type="text"
+                                        name="year"
+                                        placeholder="Year"
+                                        value={project.year}
+                                        onChange={(event) => handleProjectChange(index, event)}
+                                    />
+                                    <p className="text-gray-500 text-xs italic">
+                                        Year of project
+                                    </p>
+                                </div>
+               <div className="mt-2">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-1"
+                  htmlFor={`project-type_technologies-${index}`}
+                >
+                  Tipo de software que se desarrolló
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  id={`project-type_technologies-${index}`}
+                  type="text"
+                  name="type_technologies"
+                  placeholder="List type of technologies for this project (comma-separated)"
+                  value={project.type_technologies.join(", ")}
+                  onChange={(event) =>
+                    handleProjectTechnologiesChange(index, event)
+                  }
+                />
+                <p className="text-gray-500 text-xs italic">
+                  Enter comma-separated technologies
+                </p>
+              </div>
                                 <div className="mt-2">
                                     <label
                                         className="block text-gray-700 text-sm font-bold mb-1"
@@ -327,10 +373,11 @@ export function FormScreen() {
                                 </div>
 
                                 <div className="mt-2 flex items-center">
+                                    
                                     <button
                                         type="button"
                                         onClick={handleAddProject}
-                                        className="ml-2 bg-[#0A2D2E] hover:bg-green-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                        className="ml-2 bg-[#0A2D2E] hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     >
                                         +
                                     </button>
@@ -403,6 +450,7 @@ export function FormScreen() {
                     </div>
 
                     <div className="flex items-center justify-center">
+                        
                         <button
                             className="bg-[#064E3B] hover:bg-[#06583a] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
                             type="submit"
