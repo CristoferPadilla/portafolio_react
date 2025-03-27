@@ -78,64 +78,68 @@ export function FormScreen() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        const formDataToSend = new FormData();
+      const formDataToSend = new FormData();
 
-        const payload = {
-            full_name: formData.full_name,
-            description: formData.description,
-            spoken_languages: formData.spoken_languages,
-            programming_languages: formData.programming_languages,
-            projects: projects.map(project => ({
-                title: project.title,
-                description: project.description,
-                year: project.year ? Number(project.year) : null,
-                type_technologies: project.type_technologies,
-                image_file: project.image ? project.image.name : null
-            })),
-            social_links: socialLinks.map(link => ({
-                name: link.name,
-                link: link.link
-            }))
-        };
+      // Create a JSON payload for the other fields
+      const payload = {
+          full_name: formData.full_name,
+          description: formData.description,
+          spoken_languages: formData.spoken_languages,
+          programming_languages: formData.programming_languages,
+          projects: projects.map(project => ({
+              title: project.title,
+              description: project.description,
+              year: project.year ? Number(project.year) : null,
+              type_technologies: project.type_technologies,
+              image_file: project.image ? project.image.name : null
+          })),
+          social_links: socialLinks.map(link => ({
+              name: link.name,
+              link: link.link
+          })),
+          cv_file: cvFile ? cvFile.name : null  
+      };
 
-        formDataToSend.append("json_payload", JSON.stringify(payload));
+      // Append the JSON payload as a string
+      formDataToSend.append("json_payload", JSON.stringify(payload));
 
-        if (cvFile) {
-            formDataToSend.append("cv_file", cvFile);
-        }
+      // Append the CV file
+      if (cvFile) {
+          formDataToSend.append("cv_file", cvFile);
+      }
 
-        // Append the project images to the form data
-        projects.forEach((project, index) => {
-            if (project.image) {
-                formDataToSend.append(`project_image_${index}`, project.image);
-            }
-        });
-        try {
-            const response = await fetch("https://apiport.onrender.com/portfolio", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-                body: formDataToSend,
-            });
+      // Append the project images to the form data
+      projects.forEach((project, index) => {
+          if (project.image) {
+              formDataToSend.append(`project_image_${index}`, project.image);
+          }
+      });
+      try {
+          const response = await fetch("https://apiport.onrender.com/portfolio", {
+              method: "POST",
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+              },
+              body: formDataToSend,
+          });
 
-            if (response.ok) {
-                console.log("Portfolio created successfully!");
-                navigate('/portafolio_react/home');
-            } else {
-                console.error("Failed to create portfolio:", response.status);
-                const errorData = await response.json();
-                console.error("Error Data", errorData,formDataToSend);
-                console.error("Payload", payload);
-                console.log(formDataToSend)
-                console.log(JSON.stringify(payload));
-            }
-        } catch (error) {
-            console.error("Error creating portfolio:", error);
-        }
-    };
+          if (response.ok) {
+              console.log("Portfolio created successfully!");
+              navigate('/portafolio_react/home');
+          } else {
+              console.error("Failed to create portfolio:", response.status);
+              const errorData = await response.json();
+              console.error("Error Data", errorData,formDataToSend);
+              console.error("Payload", payload);
+              console.log(formDataToSend)
+              console.log(JSON.stringify(payload));
+          }
+      } catch (error) {
+          console.error("Error creating portfolio:", error);
+      }
+  };
 
     return (
         <div className="bg-gray-100 min-h-screen  flex items-center justify-center">
