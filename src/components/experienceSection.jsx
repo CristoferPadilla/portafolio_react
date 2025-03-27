@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export function MyWork({ myWork }) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedImage, setExpandedImage] = useState("");
+  const modalRef = useRef(null); // Create a reference for the modal
 
   const openModal = (image) => {
     setExpandedImage(image);
@@ -10,48 +11,80 @@ export function MyWork({ myWork }) {
   };
 
   const closeModal = () => {
-    setIsOpen(false); 
+    setIsOpen(false);
   };
 
+  // useEffect to handle outside clicks
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <article className="my-work-container"  id="myWork">
-      <h1 className="info-title">Mis proyectos</h1>
-      <span className="info-description">
-        Algunos de los proyectos que he realizado a lo largo de mi carrera
-        profesional.
-      </span>
-      <br />
-      <br />
-      <div className="my-work-list-wrapper">
-        {myWork.map(({ name, description, image }) => (
-          <div className="my-work-list-container" key={name}>
-            <img
-              className="my-work-image"
-              src={image}
-              alt={name}
-              loading="lazy"
-              onClick={() => openModal(image)} 
-            />
-            <strong className="my-work-name">{name}</strong>
-            <span className="my-work-description">{description}</span>
-          </div>
-        ))}
+    <section className="py-8">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-4">Proyectos</h2>
+        <div className="grid grid-cols-1 gap-6">
+          {myWork && myWork.length > 0 ? (
+            myWork.map(({ name, description, image, year, type }) => (
+              <div
+                key={name}
+                className="bg-white rounded-lg shadow-md overflow-hidden flex items-start"
+              >
+                <img
+                  className="w-1/3 object-cover"
+                  src={image}
+                  alt={name}
+                  loading="lazy"
+                  onClick={() => openModal(image)}
+                />
+                <div className="p-4 flex-grow">
+                  <h3 className="text-xl font-semibold text-gray-700 mb-1">{name}</h3>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="bg-gray-200 text-gray-600 rounded-full px-3 py-1 text-sm font-semibold">
+                      {year}
+                    </span>
+                    <span className="text-gray-500 text-sm">{type}</span>
+                  </div>
+                  <p className="text-gray-600 text-sm">{description}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-700 text-center">No projects found.</p>
+          )}
+        </div>
       </div>
-      {/* Modal para mostrar la imagen expandida */}
+
       {isOpen && (
         <div
-          className={`modal-overlay ${isOpen ? "open" : "close"}`}
-          onClick={closeModal} 
+          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={closeModal} //This was removed
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={expandedImage}
-              alt="Imagen Expandida"
-              className="expanded-image"
-            />
+          <div
+            className="bg-white rounded-lg p-4 max-w-4xl max-h-4xl"
+            ref={modalRef}
+            onClick={(e) => e.stopPropagation()} // Prevent click inside from closing
+          >
+            <img src={expandedImage} alt="Expanded" className="w-full h-auto object-contain" />
           </div>
         </div>
       )}
-    </article>
+    </section>
   );
 }

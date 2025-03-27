@@ -1,18 +1,18 @@
 html::-webkit-scrollbar{
   width: 0.5rem;
-  background: #000000;
-  scrollbar-track-color: #ffffff;
+  background: #ffffff;
+  scrollbar-track-color: #000000;
 }
 html::-webkit-scrollbar-thumb{
   background: #ffffff;
   border-radius: 10px;
 }
 body{
-    background: linear-gradient(200deg, #0B0C10, #1F2833, #5A4FCF);
+    background: white;
     margin: 0;
     color: #C5C6C7;
     padding: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 .App{
