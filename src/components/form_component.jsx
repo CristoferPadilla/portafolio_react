@@ -20,7 +20,7 @@ export function FormComponent() {
   });
 
   const navigate = useNavigate();
-
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [cvFile, setCvFile] = useState(null);
 
   const handleAddProject = () => {
@@ -67,6 +67,7 @@ export function FormComponent() {
       .map((item) => item.trim());
     setProjects(newProjects);
   };
+  const [activeTab, setActiveTab] = useState("personal");
 
   const handleProjectImageChange = (index, event) => {
     const newProjects = [...projects];
@@ -91,10 +92,51 @@ export function FormComponent() {
       setFormData({ ...formData, [name]: value });
     }
   };
-  
 
   const handleCvFileChange = (e) => {
     setCvFile(e.target.files[0]);
+  };
+
+  const hasData = () => {
+    // Verificar si hay datos en el formulario principal
+    if (formData.full_name || formData.description || 
+        formData.spoken_languages.length > 0 || 
+        formData.programming_languages.length > 0 || 
+        cvFile) {
+      return true;
+    }
+    
+    // Verificar si hay datos en los proyectos
+    if (projects.some(project => 
+      project.title || project.description || 
+      project.year || project.type_technologies.length > 0 || 
+      project.image)) {
+      return true;
+    }
+    
+    // Verificar si hay datos en los enlaces sociales
+    if (socialLinks.some(link => link.name || link.link)) {
+      return true;
+    }
+    
+    return false;
+  };
+
+  const handleGoBack = () => {
+    if (hasData()) {
+      setShowConfirmModal(true);
+    } else {
+      navigate(-1);
+    }
+  };
+
+  const confirmGoBack = () => {
+    setShowConfirmModal(false);
+    navigate(-1);
+  };
+
+  const cancelGoBack = () => {
+    setShowConfirmModal(false);
   };
 
   const handleSubmit = async (e) => {
@@ -162,332 +204,346 @@ export function FormComponent() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen  flex items-center justify-center">
-      {/* Full screen */}
-      <div className="w-full max-w-screen-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {/* Take up the screen width for md devices */}
-        <div className="flex justify-end items-center mb-4">
-          <button className="text-blue-500 hover:text-blue-700 text-sm">
-            Mi cuenta
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-white border-2 p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">¿Estás seguro?</h3>
+            <p className="mb-6 text-gray-700">Tienes datos sin guardar. ¿Realmente quieres salir?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={cancelGoBack}
+                className="px-4 py-2 border rounded-lg hover:bg-gray-200 transition text-gray-700"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmGoBack}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              >
+                Sí, salir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="w-full max-w-screen-md bg-white shadow-md rounded-lg overflow-hidden relative">
+        {/* Botón para regresar */}
+        <button
+          onClick={handleGoBack}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 transition"
+          title="Regresar"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+
+        {/* Encabezado */}
+        <div className="p-6 text-center">
+          <h1 className="text-3xl font-semibold text-gray-800">
+            Crea tu Portafolio
+          </h1>
+          <p className="text-gray-600 mt-2">Ingresa tus datos por secciones</p>
+        </div>
+
+        {/* Pestañas */}
+        <div className="flex border-b">
+          <button
+            className={`py-3 px-6 font-medium text-sm ${activeTab === "personal" ? "text-green-700 border-b-2 border-green-700" : "text-gray-500"}`}
+            onClick={() => setActiveTab("personal")}
+          >
+            Datos Personales
+          </button>
+          <button
+            className={`py-3 px-6 font-medium text-sm ${activeTab === "professional" ? "text-green-700 border-b-2 border-green-700" : "text-gray-500"}`}
+            onClick={() => setActiveTab("professional")}
+          >
+            Proyectos
+          </button>
+          <button
+            className={`py-3 px-6 font-medium text-sm ${activeTab === "social" ? "text-green-700 border-b-2 border-green-700" : "text-gray-500"}`}
+            onClick={() => setActiveTab("social")}
+          >
+            Redes Sociales
           </button>
         </div>
 
-        <div className="justify-center flex flex-col items-center">
-          <h1 className="text-4xl font-semibold text-gray-700">
-            Crea tu propio Portafolio
-          </h1>
-          <p className="text-gray-600 text-2xl mb-6">Ingresa tus datos</p>
-        </div>
+        <form onSubmit={handleSubmit} className="p-6">
+          {/* Sección Datos Personales */}
+          {activeTab === "personal" && (
+            <div className="space-y-6">
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Nombre Completo
+                </label>
+                <input
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  type="text"
+                  name="full_name"
+                  value={formData.full_name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
 
-        <form onSubmit={handleSubmit}>
-          {/* Datos personales */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              Datos personales
-            </h2>
-            <div>
-              <label
-                className="block text-gray-700 text-sm font-bold mb-1"
-                htmlFor="full_name"
-              >
-                Nombre Completo
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                id="full_name"
-                type="text"
-                name="full_name"
-                placeholder="Type here"
-                value={formData.full_name}
-                onChange={handleInputChange}
-              />
-              <p className="text-gray-500 text-xs italic">Assistive Text</p>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Descripción
+                </label>
+                <input
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  type="text"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  required
+                />
+                <p className="text-gray-500 text-xs mt-1">
+                  Toma la libertad de escribir un poco sobre ti
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Idiomas
+                </label>
+                <input
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  type="text"
+                  name="spoken_languages"
+                  value={formData.spoken_languages.join(", ")}
+                  onChange={handleInputChange}
+                  placeholder="Inglés, Español, Francés..."
+                />
+                <p className="text-gray-500 text-xs mt-1">
+                  Separa con comas los idiomas que dominas
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Lenguajes de programación
+                </label>
+                <input
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  type="text"
+                  name="programming_languages"
+                  value={formData.programming_languages.join(", ")}
+                  onChange={handleInputChange}
+                  placeholder="JavaScript, Python, Java..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Curriculum Vitae
+                </label>
+                <input
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleCvFileChange}
+                  required
+                />
+              </div>
+
+              <div className="flex justify-end pt-4">
+                <button
+                  type="button"
+                  className="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition"
+                  onClick={() => setActiveTab("professional")}
+                >
+                  Siguiente: Proyectos
+                </button>
+              </div>
             </div>
+          )}
 
-            <div className="mt-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-1"
-                htmlFor="description"
-              >
-                Descripción
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                id="description"
-                type="text"
-                name="description"
-                placeholder="Type here"
-                value={formData.description}
-                onChange={handleInputChange}
-              />
-              <p className="text-gray-500 text-xs italic">
-                Toma la libertad de escribir un poco sobre ti
-              </p>
-            </div>
+          {/* Sección Proyectos */}
+          {activeTab === "professional" && (
+            <div className="space-y-6">
+              {projects.map((project, index) => (
+                <div key={index} className="border rounded-lg p-4 mb-4">
+                  <h3 className="font-medium mb-4">Proyecto {index + 1}</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Título del proyecto
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        name="title"
+                        value={project.title}
+                        onChange={(e) => handleProjectChange(index, e)}
+                      />
+                    </div>
 
-            <div className="mt-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-1"
-                htmlFor="idiomas"
-              >
-                Idiomas
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                id="idiomas"
-                type="text"
-                placeholder="Type here (comma-separated)"
-                name="spoken_languages"
-                value={formData.spoken_languages.join(", ")}
-                onChange={handleInputChange}
-              />
-              <p className="text-gray-500 text-xs italic">
-                Ingresa los idiomas que dominas
-              </p>
-            </div>
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Descripción
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        name="description"
+                        value={project.description}
+                        onChange={(e) => handleProjectChange(index, e)}
+                      />
+                    </div>
 
-            <div className="mt-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-1"
-                htmlFor="programmingLanguages"
-              >
-                Lenguajes y frameworks de programación
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                id="programmingLanguages"
-                type="text"
-                name="programming_languages"
-                placeholder="List your programming languages (comma-separated)"
-                value={formData.programming_languages.join(", ")}
-                onChange={handleInputChange}
-              />
-              <p className="text-gray-500 text-xs italic">
-                Enter comma-separated languages
-              </p>
-            </div>
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Año
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        name="year"
+                        value={project.year}
+                        onChange={(e) => handleProjectChange(index, e)}
+                      />
+                    </div>
 
-            <div className="mt-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-1"
-                htmlFor="cv_file"
-              >
-                CV File
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                id="cv_file"
-                type="file"
-                accept=".pdf,.doc,.docx"
-                onChange={handleCvFileChange}
-                required
-              />
-              <p className="text-gray-500 text-xs italic">
-                Upload your CV (PDF, DOC, DOCX)
-              </p>
-            </div>
-          </div>
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Tecnologías utilizadas
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        value={project.type_technologies.join(", ")}
+                        onChange={(e) => handleProjectTechnologiesChange(index, e)}
+                        placeholder="React, Node.js, MongoDB..."
+                      />
+                    </div>
 
-          {/* Información profesional */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              Información profesional
-            </h2>
-            {projects.map((project, index) => (
-              <div key={index} className="mb-4">
-                <div>
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                    htmlFor={`project-title-${index}`}
-                  >
-                    Proyectos
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`project-title-${index}`}
-                    type="text"
-                    name="title"
-                    placeholder="Type here"
-                    value={project.title}
-                    onChange={(event) => handleProjectChange(index, event)}
-                  />
-                  <p className="text-gray-500 text-xs italic">
-                    Ingresa el título de tu proyecto
-                  </p>
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Imagen del proyecto
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleProjectImageChange(index, e)}
+                      />
+                    </div>
+
+                    {projects.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveProject(index)}
+                        className="text-red-500 text-sm hover:text-red-700"
+                      >
+                        Eliminar proyecto
+                      </button>
+                    )}
+                  </div>
                 </div>
+              ))}
 
-                <div className="mt-2">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                    htmlFor={`project-description-${index}`}
-                  >
-                    Descripción del proyecto
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`project-description-${index}`}
-                    type="text"
-                    name="description"
-                    placeholder="Type here"
-                    value={project.description}
-                    onChange={(event) => handleProjectChange(index, event)}
-                  />
-                  <p className="text-gray-500 text-xs italic">
-                    Escribe una breve descripción del proyecto
-                  </p>
-                </div>
-                <div className="mt-2">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                    htmlFor={`project-year-${index}`}
-                  >
-                    Year
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`project-year-${index}`}
-                    type="text"
-                    name="year"
-                    placeholder="Year"
-                    value={project.year}
-                    onChange={(event) => handleProjectChange(index, event)}
-                  />
-                  <p className="text-gray-500 text-xs italic">
-                    Year of project
-                  </p>
-                </div>
-                <div className="mt-2">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                    htmlFor={`project-type_technologies-${index}`}
-                  >
-                    Tipo de software que se desarrolló
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`project-type_technologies-${index}`}
-                    type="text"
-                    name="type_technologies"
-                    placeholder="List type of technologies for this project (comma-separated)"
-                    value={project.type_technologies.join(", ")}
-                    onChange={(event) =>
-                      handleProjectTechnologiesChange(index, event)
-                    }
-                  />
-                  <p className="text-gray-500 text-xs italic">
-                    Enter comma-separated technologies
-                  </p>
-                </div>
-                <div className="mt-2">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                    htmlFor={`project-image-${index}`}
-                  >
-                    Imagen del proyecto
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`project-image-${index}`}
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => handleProjectImageChange(index, event)}
-                  />
-                  <p className="text-gray-500 text-xs italic">
-                    Sube una imagen de tu proyecto
-                  </p>
-                </div>
-
-                <div className="mt-2 flex items-center">
+              <div className="flex justify-between pt-4">
+                <button
+                  type="button"
+                  className="text-gray-600 px-6 py-2 rounded-lg border hover:bg-gray-50 transition"
+                  onClick={() => setActiveTab("personal")}
+                >
+                  Anterior
+                </button>
+                <div className="flex space-x-4">
                   <button
                     type="button"
                     onClick={handleAddProject}
-                    className="ml-2 bg-[#0A2D2E] hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
                   >
-                    +
+                    + Añadir Proyecto
                   </button>
-
                   <button
                     type="button"
-                    onClick={() => handleRemoveProject(index)}
-                    className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition"
+                    onClick={() => setActiveTab("social")}
                   >
-                    -
+                    Siguiente: Redes
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
 
-          {/* Redes sociales */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              Redes sociales
-            </h2>
+          {/* Sección Redes Sociales */}
+          {activeTab === "social" && (
+            <div className="space-y-6">
+              {socialLinks.map((link, index) => (
+                <div key={index} className="border rounded-lg p-4 mb-4">
+                  <h3 className="font-medium mb-4">Red Social {index + 1}</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Nombre de la red
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        name="name"
+                        value={link.name}
+                        onChange={(e) => handleSocialLinkChange(index, e)}
+                        placeholder="LinkedIn, GitHub, Twitter..."
+                      />
+                    </div>
 
-            <div className="mt-4"></div>
+                    <div>
+                      <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Enlace
+                      </label>
+                      <input
+                        className="w-full px-4 py-2 border rounded-lg"
+                        type="text"
+                        name="link"
+                        value={link.link}
+                        onChange={(e) => handleSocialLinkChange(index, e)}
+                        placeholder="https://..."
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
 
-            {socialLinks.map((link, index) => (
-              <div key={index} className="mt-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-1"
-                  htmlFor={`social-name-${index}`}
+              <div className="flex justify-between pt-4">
+                <button
+                  type="button"
+                  className="text-gray-600 px-6 py-2 rounded-lg border hover:bg-gray-50 transition"
+                  onClick={() => setActiveTab("professional")}
                 >
-                  Social Media
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                  id={`social-name-${index}`}
-                  type="text"
-                  name="name"
-                  placeholder="Type here"
-                  value={link.name}
-                  onChange={(event) => handleSocialLinkChange(index, event)}
-                />
-                <p className="text-gray-500 text-xs italic">
-                  Ingresa el nombre de tu red social
-                </p>
-
-                <div className="mt-2 flex items-center">
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                    id={`social-link-${index}`}
-                    type="text"
-                    name="link"
-                    placeholder="Type here"
-                    value={link.link}
-                    onChange={(event) => handleSocialLinkChange(index, event)}
-                  />
+                  Anterior
+                </button>
+                <div className="flex space-x-4">
                   <button
                     type="button"
                     onClick={handleAddSocialLink}
-                    className="ml-2 bg-[#0A2D2E] hover:bg-green-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
                   >
-                    +
+                    + Añadir Red
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition"
+                  >
+                    Enviar Portafolio
                   </button>
                 </div>
-                <p className="text-gray-500 text-xs italic">
-                  Ingresa el link de tu red social
-                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
 
-          <div className="flex items-center justify-center">
-            <button
-              className="bg-[#064E3B] hover:bg-[#06583a] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              CREAR
-            </button>
-          </div>
-
-          <div className="text-center mt-4">
-            <p className="text-gray-500 text-xs">
-              Powered By FleTechnologies M.R.
-            </p>
-            <p className="text-gray-500 text-xs">
-              Copyright @2020 All rights reserved
-            </p>
+          {/* Footer */}
+          <div className="text-center mt-8 pt-4 border-t text-xs text-gray-500">
+            <p>Powered By FleTechnologies M.R.</p>
+            <p>Copyright @2020 All rights reserved</p>
           </div>
         </form>
       </div>
