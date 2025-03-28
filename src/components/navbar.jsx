@@ -10,7 +10,7 @@ import {
 
 export function Navbar() {
   return (
-    <div className="flex flex-col h-screen w-20 bg-white shadow-md">
+    <div className="flex flex-col w-20 bg-white shadow-md">
       <div className="flex items-center justify-center h-16">
         <FontAwesomeIcon icon={faCompass} size="lg" className="text-gray-700" />
       </div>
