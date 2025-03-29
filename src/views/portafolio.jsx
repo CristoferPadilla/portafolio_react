@@ -6,6 +6,7 @@ import { InfoSection } from "../components/sectionInfo";
 import { AbilitysList } from "../components/abilitysList";
 import { MyWork } from "../components/experienceSection";
 import { ContactFooter } from "../components/contactFooter";
+import { Navbar } from "../components/navbar";
 
 export function Portafolio() {
   const [hasPortfolio, setHasPortfolio] = useState(null); 
@@ -18,7 +19,7 @@ export function Portafolio() {
 
     const fetchPortfolioData = async () => {
       try {
-        const response = await fetch('https://apiport.onrender.com/portfolio', { 
+        const response = await fetch('https://apiport.onrender.com/portfolio/${id}', { 
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -79,16 +80,21 @@ if (hasPortfolio === null) {
 
 if (!hasPortfolio) {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <p className="text-2xl text-gray-700 mb-4">
-        You don&apos;t have a portfolio yet.
-      </p>
-      <button
-        className="bg-[#064E3B] hover:bg-[#06583a] text-white font-bold py-2 px-4 rounded-full cursor-pointer focus:outline-none focus:shadow-outline"
-        onClick={handleCreatePortfolioClick}
-      >
-        Create a Portfolio
-      </button>
+    <div className="flex flex-col md:flex-row bg-gray-100">
+      <div className="flex flex-col md:flex-row bg-gray-100">
+        <Navbar />
+      </div>
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100 flex-grow">
+        <p className="text-2xl text-gray-700 mb-4">
+          You don&apos;t have a portfolio yet.
+        </p>
+        <button
+          className="bg-[#064E3B] hover:bg-[#06583a] text-white font-bold py-2 px-4 rounded-full cursor-pointer focus:outline-none focus:shadow-outline"
+          onClick={handleCreatePortfolioClick}
+        >
+          Create a Portfolio
+        </button>
+      </div>
     </div>
   );
 }

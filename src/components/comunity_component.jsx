@@ -25,6 +25,7 @@ export function ComunityLayout() {
         <div className="container mx-auto py-8 px-4">
             <header className="flex justify-between items-center mb-8 w-full">
                 <h1 className="text-2xl text-gray-800 font-semibold">Comunidad</h1>
+                <a href="#" className="text-gray-600 hover:text-gray-800 text-sm">Ver mi portafolio</a>
             </header>
 
             <section className="w-full">
