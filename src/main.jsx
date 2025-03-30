@@ -14,9 +14,11 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="portafolio_react/home" element={<ComunityScreen />} />
-      <Route path="portafolio_react/portafolio" element={<Portafolio />} />
+      <Route path="/portafolio_react/home/:userId" element={<Portafolio />} />
       <Route path="portafolio_react/" element={<LoginScreen />} />
       <Route path="portafolio_react/form" element={<FormScreen />} />
+      {/* <Route path="/portafolio_react/portafolio" element={<Portafolio />} /> */}
+
     </Routes>
   </BrowserRouter>
 );

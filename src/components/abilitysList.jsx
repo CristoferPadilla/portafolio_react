@@ -1,3 +1,4 @@
+// components/AbilitysList.js
 import PropTypes from 'prop-types';
 
 export function AbilitysList({ abilities }) {
@@ -12,19 +13,15 @@ export function AbilitysList({ abilities }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {abilities && abilities.length > 0 ? (
-            abilities.map(({ name, description, icon, date, tags }) => (
+            abilities.map((ability, index) => (
               <div
-                key={name}
+                key={index}
                 className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between"
               >
                 <div>
                   <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                    {name}
+                    {ability}
                   </h3>
-                  <div className="text-gray-500 text-sm mb-2">
-                    {date} | {tags}
-                  </div>
-                  <p className="text-gray-600 text-sm">{description}</p>
                 </div>
               </div>
             ))
@@ -36,3 +33,7 @@ export function AbilitysList({ abilities }) {
     </section>
   );
 }
+
+AbilitysList.propTypes = {
+  abilities: PropTypes.arrayOf(PropTypes.string), // Expecting an array of strings
+};
