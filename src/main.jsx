@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="portafolio_react/home" element={<ComunityScreen />} />
-      <Route path="portafolio_react/portafolio" element={<Portafolio />} />
+      <Route path="/home" element={<ComunityScreen />} />
+      <Route path="/portafolio" element={<Portafolio />} />
       {/* <Route path="portafolio_react/" element={<LoginScreen />} /> */}
-      <Route path="portafolio_react/" element={<Portafolio />} />
-      <Route path="portafolio_react/form" element={<FormScreen />} />
+      <Route path="/" element={<Portafolio />} />
+      <Route path="/form" element={<FormScreen />} />
     </Routes>
   </BrowserRouter>
 );
