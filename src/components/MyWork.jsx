@@ -1,9 +1,20 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 export function MyWork({ myWork }) {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   if (!myWork || myWork.length === 0) {
     return <p className="text-gray-700 text-center">No projects found.</p>;
   }
+
+  const openModal = (image) => {
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
 
   return (
     <section className="bg-white py-20">
@@ -16,8 +27,9 @@ export function MyWork({ myWork }) {
                 <img
                   src={project.image}
                   alt={`${project.name} image`}
-                  className="w-full h-auto object-cover rounded-lg shadow-lg"
+                  className="w-full h-auto object-cover rounded-lg shadow-lg cursor-pointer"
                   loading="lazy"
+                  onClick={() => openModal(project.image)}
                 />
               </div>
               <div className="md:w-1/2 mt-6 md:mt-0">
@@ -39,6 +51,26 @@ export function MyWork({ myWork }) {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closeModal}>
+          <div className="relative max-w-4xl max-h-full p-4">
+            <img
+              src={selectedImage}
+              alt="Project image"
+              className="max-w-full max-h-full object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              className="absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-75"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

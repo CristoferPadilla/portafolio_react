@@ -1,0 +1,2 @@
+- [x] Añadir gradientes de difuminado a los costados del scroller en abilitysList.css
+- [x] Hacer las imágenes de proyectos clickeables para abrir en modal

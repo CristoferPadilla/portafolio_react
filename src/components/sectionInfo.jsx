@@ -55,7 +55,7 @@ export function InfoSection({ descriptionProfile }) {
 
       <aside className="image-container">
         <div className="Circulo">
-          <img src="/portafolio_react/h.jpg" alt="Foto de perfil" />
+          <img src="/h.jpg" alt="Foto de perfil" />
         </div>
       </aside>
     </article>
