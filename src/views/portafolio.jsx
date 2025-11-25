@@ -1,103 +1,51 @@
-import { useNavigate } from "react-router-dom"; 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { PortafolioLi } from "../components/portafolioLi";
 import { InfoSection } from "../components/sectionInfo";
 import { AbilitysList } from "../components/abilitysList";
-import { MyWork } from "../components/experienceSection";
+import { MyWork } from "../components/MyWork";
+import { ExperienceSection } from "../components/experienceSection";
 import { ContactFooter } from "../components/contactFooter";
-import { Navbar } from "../components/navbar";
+import { descriptionProfile, myAbilities, myProjects, myExperiences } from "../data/data";
 
 export function Portafolio() {
-  const [hasPortfolio, setHasPortfolio] = useState(null); 
-  const [portfolioData, setPortfolioData] = useState(null);
-    const navigate = useNavigate();
-  const [currentSection, setCurrentSection] = useState(0); 
+  const [currentSection, setCurrentSection] = useState(0);
+  const infoRef = useRef(null);
+  const abilitiesRef = useRef(null);
+  const workRef = useRef(null);
+  const experienceRef = useRef(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-    const fetchPortfolioData = async () => {
-      try {
-        const response = await fetch('https://apiport.onrender.com/portfolio/${id}', { 
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`
-          },
-        });
+      if (infoRef.current && abilitiesRef.current && workRef.current && experienceRef.current) {
+        const infoTop = infoRef.current.offsetTop;
+        const abilitiesTop = abilitiesRef.current.offsetTop;
+        const workTop = workRef.current.offsetTop;
+        const experienceTop = experienceRef.current.offsetTop;
 
-        if (response.ok) {
-          const data = await response.json();
-          setPortfolioData(data);
-          setHasPortfolio(true);
-        } else if (response.status === 404) {
-          // Portfolio not found
-          setHasPortfolio(false);
-        } else {
-          // Handle other errors
-          console.error("Error fetching portfolio:", response.status);
-          setHasPortfolio(false);
+        if (scrollPosition < abilitiesTop) {
+          setCurrentSection(0);
+        } else if (scrollPosition >= abilitiesTop && scrollPosition < workTop) {
+          setCurrentSection(1);
+        } else if (scrollPosition >= workTop && scrollPosition < experienceTop) {
+          setCurrentSection(2);
+        } else if (scrollPosition >= experienceTop) {
+          setCurrentSection(3);
         }
-      } catch (error) {
-        console.error("Error fetching portfolio:", error);
-        setHasPortfolio(false); 
       }
     };
 
-    fetchPortfolioData();
-  }, []);
-
-  const handleCreatePortfolioClick = () => {
-       navigate('/portafolio_react/form'); 
-    };
-
-useEffect(() => {
-  const handleScroll = () => {
-    const scrollPosition = window.scrollY;
-    if (scrollPosition < 300) {
-      setCurrentSection(0);
-    } else if (scrollPosition >= 300 && scrollPosition < 900) {
-      setCurrentSection(1);
-    } else if (scrollPosition >= 900) {
-      setCurrentSection(2);
-    }
-  };
-
-  if (hasPortfolio) {
     window.addEventListener('scroll', handleScroll);
-  }
+    
+    // Run once to set initial section on load
+    handleScroll();
 
-  return () => {
-    window.removeEventListener('scroll', handleScroll);
-  };
-}, [hasPortfolio]);
-
-if (hasPortfolio === null) {
-  return <div>Loading...</div>; 
-}
-
-if (!hasPortfolio) {
-  return (
-    <div className="flex flex-col md:flex-row bg-gray-100">
-      <div className="flex flex-col md:flex-row bg-gray-100">
-        <Navbar />
-      </div>
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100 flex-grow">
-        <p className="text-2xl text-gray-700 mb-4">
-          You don&apos;t have a portfolio yet.
-        </p>
-        <button
-          className="bg-[#064E3B] hover:bg-[#06583a] text-white font-bold py-2 px-4 rounded-full cursor-pointer focus:outline-none focus:shadow-outline"
-          onClick={handleCreatePortfolioClick}
-        >
-          Create a Portfolio
-        </button>
-      </div>
-    </div>
-  );
-}
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <section className="portafolio-container">
@@ -106,36 +54,53 @@ if (!hasPortfolio) {
           <ul className="portafolio-ul">
             <PortafolioLi nameSection="Habilidades" asection="#myAbilities" />
             <PortafolioLi nameSection="Proyectos" asection="#myWork" />
+            <PortafolioLi nameSection="Experiencia" asection="#myExperience" />
           </ul>
         </nav>
       </header>
 
       <main className="portafolio-main">
         <motion.div
+          ref={infoRef}
           key="info"
           initial={{ opacity: 0, y: 50 }}
           animate={currentSection === 0 ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
         >
-          <InfoSection descriptionProfile={portfolioData.description} />  
+          <InfoSection descriptionProfile={descriptionProfile[0].descriptionSection} />  
         </motion.div>
 
         <motion.div
+          ref={abilitiesRef}
           key="abilities"
           initial={{ opacity: 0, y: 50 }}
           animate={currentSection === 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
+          id="myAbilities"
         >
-          <AbilitysList abilities={portfolioData.abilities} /> 
+          <AbilitysList abilities={myAbilities} /> 
         </motion.div>
 
         <motion.div
+          ref={workRef}
           key="work"
           initial={{ opacity: 0, y: 50 }}
           animate={currentSection === 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
+          id="myWork"
         >
-          <MyWork myWork={portfolioData.projects} /> 
+          <MyWork myWork={myProjects} /> 
+        </motion.div>
+
+        <motion.div
+          ref={experienceRef}
+          key="experience"
+          initial={{ opacity: 0, y: 50 }}
+          animate={currentSection === 3 ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
+          transition={{ duration: 0.5 }}
+          id="myExperience"
+        >
+          <ExperienceSection experiences={myExperiences} /> 
         </motion.div>
       </main>
 

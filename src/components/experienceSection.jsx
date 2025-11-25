@@ -1,90 +1,39 @@
-import { useState, useRef, useEffect } from "react";
+import PropTypes from 'prop-types';
 
-export function MyWork({ myWork }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [expandedImage, setExpandedImage] = useState("");
-  const modalRef = useRef(null); // Create a reference for the modal
-
-  const openModal = (image) => {
-    setExpandedImage(image);
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  // useEffect to handle outside clicks
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        closeModal();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
-
+export function ExperienceSection({ experiences }) {
   return (
-    <section className="py-8">
+    <section className="py-8 bg-gray-50">
       <div className="container mx-auto max-w-4xl">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-4">Proyectos</h2>
-        <div className="grid grid-cols-1 gap-6">
-          {myWork && myWork.length > 0 ? (
-            myWork.map(({ name, description, image, year, type }) => (
-              <div
-                key={name}
-                className="bg-white rounded-lg shadow-md overflow-hidden flex items-start"
-              >
-                <img
-                  className="w-1/3 object-cover"
-                  src={image}
-                  alt={name}
-                  loading="lazy"
-                  onClick={() => openModal(image)}
-                />
-                <div className="p-4 flex-grow">
-                  <h3 className="text-xl font-semibold text-gray-700 mb-1">{name}</h3>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className="bg-gray-200 text-gray-600 rounded-full px-3 py-1 text-sm font-semibold">
-                      {year}
-                    </span>
-                    <span className="text-gray-500 text-sm">{type}</span>
-                  </div>
-                  <p className="text-gray-600 text-sm">{description}</p>
-                </div>
+        <h2 className="text-3xl font-semibold text-gray-800 mb-6">Experiencia Laboral</h2>
+        <div className="space-y-6">
+          {experiences && experiences.length > 0 ? (
+            experiences.map(({ company, role, dateRange, details }, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md p-6">
+                <h3 className="text-xl font-semibold text-gray-700">{role} @ {company}</h3>
+                <p className="text-gray-500 italic mb-2">{dateRange}</p>
+                <ul className="list-disc list-inside text-gray-600">
+                  {details.map((detail, i) => (
+                    <li key={i}>{detail}</li>
+                  ))}
+                </ul>
               </div>
             ))
           ) : (
-            <p className="text-gray-700 text-center">No projects found.</p>
+            <p className="text-gray-700 text-center">No experience found.</p>
           )}
         </div>
       </div>
-
-      {isOpen && (
-        <div
-          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
-            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-          onClick={closeModal} //This was removed
-        >
-          <div
-            className="bg-white rounded-lg p-4 max-w-4xl max-h-4xl"
-            ref={modalRef}
-            onClick={(e) => e.stopPropagation()} // Prevent click inside from closing
-          >
-            <img src={expandedImage} alt="Expanded" className="w-full h-auto object-contain" />
-          </div>
-        </div>
-      )}
     </section>
   );
 }
+
+ExperienceSection.propTypes = {
+  experiences: PropTypes.arrayOf(
+    PropTypes.shape({
+      company: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      dateRange: PropTypes.string.isRequired,
+      details: PropTypes.arrayOf(PropTypes.string).isRequired,
+    })
+  ).isRequired,
+};
