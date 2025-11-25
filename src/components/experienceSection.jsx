@@ -9,7 +9,7 @@ export function ExperienceSection({ experiences }) {
           {experiences && experiences.length > 0 ? (
             experiences.map(({ company, role, dateRange, details }, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-xl font-semibold text-gray-700">{role} @ {company}</h3>
+                <h3 className="text-xl font-semibold text-gray-700">{role} | {company}</h3>
                 <p className="text-gray-500 italic mb-2">{dateRange}</p>
                 <ul className="list-disc list-inside text-gray-600">
                   {details.map((detail, i) => (

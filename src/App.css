@@ -2,11 +2,16 @@
 @import "tailwindcss";
 
 /* Header */
-.portafolio-container{
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+.portafolio-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;        /* FIX DEL SCROLL EN MOVIL */
+  -webkit-overflow-scrolling: touch; /* scroll suave iOS */
 }
+
+
 .portafolio-header{
     background-color: #ffffff;
     padding: 10px;
@@ -143,15 +148,45 @@
 
 
 .Circulo {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background-color: #000000;
-    opacity: 1;
-    animation: fadeIn 3s forwards;
-    border: 5px solid #ffffff; /* Borde blanco para el círculo */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el círculo */
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Borde degradado elegante */
+  padding: 5px;
+  background: linear-gradient(135deg, #0A2D2E, #3BA99C);
+
+  /* Sombra suave */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.Circulo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Efecto hover */
+.Circulo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.28);
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+  .Circulo {
+    width: 180px;
+    height: 180px;
+  }
+}
+
 
 .info-image {
     width: 450px;

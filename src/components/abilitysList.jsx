@@ -6,14 +6,13 @@ export function AbilitysList({ abilities }) {
     return <p className="text-white text-center">No abilities found.</p>;
   }
 
-  // Se duplican los datos (NO los nodos HTML)
   const duplicatedList = [...abilities, ...abilities];
 
   return (
     <section className="bg-gray-50 py-20">
       <div className="container mx-auto max-w-6xl px-4">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
-          Habilidades Técnicas
+          Ya trabajo con estas tecnologías y herramientas
         </h2>
 
         <div
@@ -37,7 +36,7 @@ export function AbilitysList({ abilities }) {
                   </p>
                 </div>
 
-                {/* Tooltip que ya NO se corta */}
+                {/* Tooltip */}
                 <div className="tooltip">
                   {ability.description}
                 </div>

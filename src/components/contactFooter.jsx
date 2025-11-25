@@ -8,10 +8,10 @@ export function ContactFooter() {
       <div className="container mx-auto flex flex-col h-15 items-center">
         {/* Social Media Icons */}
         <div className="flex items-center justify-center space-x-4">
-             <a href="#" className="text-gray-500 hover:text-gray-700">
+             <a href="https://www.facebook.com/profile.php?id=100014062606738" className="text-gray-500 hover:text-gray-700">
                 <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
-            <a href="#" className="text-gray-500 hover:text-gray-700">
+            <a href="https://www.instagram.com/_cristofer.padilla/" className="text-gray-500 hover:text-gray-700">
                 <FontAwesomeIcon icon={faInstagram} size="lg" />
             </a>
              <a href="https://github.com/CristoferPadilla" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-700">
@@ -24,9 +24,7 @@ export function ContactFooter() {
 
       </div>
               {/* Copyright and Powered By Text */}
-              <p className="text-gray-500 text-xs justify-start ">
-          Powered By FleTechnologies M.R.
-        </p>
+ 
     </footer>
   );
 }
