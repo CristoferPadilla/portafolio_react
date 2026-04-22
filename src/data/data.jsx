@@ -192,34 +192,34 @@ export const myExperiences = [
 ];
 
 export const myProjects = [
-      {
-    name: "Sistema de gestión para Tour Operadores",
-    description:
-      "Al igual que el motor de busqueda, he estado desarrollando un sistema de gestión integral para Tour Operadores utilizando Next.js y TailwindCSS. Este sistema está diseñado para facilitar la administración de reservas, itinerarios y clientes, proporcionando una interfaz intuitiva y funcionalidades robustas. He implementado características como gestión de usuarios, generación de informes y automatización de tareas administrativas para optimizar las operaciones diarias de los tour operadores.",
-    image: "/TourOperador.png",
-    year: "2025",  
-    type: [
-      "Aplicación Web", 
-    ]
-  },
-    {
+  {
     name: "Motor de busqueda para agencias de viajes",
     description:
       "En el proceso de estos últimos meses, he estado desarrollando un motor de búsqueda personalizado para Agencias de Viajes utilizando Next.js y TailwindCSS. Este proyecto tiene como objetivo proporcionar a los usuarios una experiencia de búsqueda rápida y eficiente, con resultados relevantes y una interfaz intuitiva. He implementado características como autocompletado, filtros avanzados y paginación para mejorar la usabilidad.",
-    image: "/Motor_de_busqueda.png",
-    year: "2025",  
+    images: ["/Motor_de_busqueda.png", "/MBusqueda.png", "/Habitaciones.png", "/Mapa.png", "/Hospedajes.png"],
+    year: "2025",
     type: [
-      "Aplicación Web", 
+      "Aplicación Web",
+    ]
+  },
+  {
+    name: "Sistema de gestión para Tour Operadores",
+    description:
+      "Al igual que el motor de busqueda, he estado desarrollando un sistema de gestión integral para Tour Operadores utilizando Next.js y TailwindCSS. Este sistema está diseñado para facilitar la administración de reservas, itinerarios y clientes, proporcionando una interfaz intuitiva y funcionalidades robustas. He implementado características como gestión de usuarios, generación de informes y automatización de tareas administrativas para optimizar las operaciones diarias de los tour operadores.",
+    images: ["/TourOperador.png", "/OpTour.png", "/PuntoVenta.png", "/Hoteles.png", "/Chat.png"],
+    year: "2025",
+    type: [
+      "Aplicación Web",
     ]
   },
   {
     name: "Dieti",
     description:
       "Durante mi tiempo en MINDEC, tuve la oportunidad de trabajar en un proyecto de una aplicación móvil llamada Dieti, la cual es una aplicación de dietas personalizadas. En esta aplicación mi trabajo consistió en la implementación de nuevas funcionalidades, diseño y mejoras en la aplicación. Tanto en el desarrollo de la parte movil como en la parte de la web utilizando Flutter con Firebase.",
-    image: "/dieti.png",
-    year: "2024",  
+    images: ["/dieti.png"],
+    year: "2024",
     type: [
-      "Aplicación Web", 
+      "Aplicación Web",
       "Aplicación Móvil"
     ]
   },
@@ -227,10 +227,10 @@ export const myProjects = [
     name: "FlowFit",
     description:
       "En el transcurso de la carrera, junto a un compañero de clases nos propusimos realizar una aplicación móvil para llevar un control de las rutinas de ejercicio, con el fin de mejorar la salud y el bienestar de los usuarios. En este proyecto mi rol fue el de desarrollar la parte móvil con Flutter. Este proyecto nos otorgó un reconocimiento de la Universidad Tecnológica Metropolitana.",
-    image: "/flowfit.png",
-    year: "2024",  
+    images: ["/flowfit.png"],
+    year: "2024",
     type: [
-      "Aplicación Web", 
+      "Aplicación Web",
       "Aplicación Móvil"
     ]
   },
@@ -238,10 +238,10 @@ export const myProjects = [
     name: "Landing page",
     description:
       "Landing page para una fletería. Relaizada con React y TailwindCSS. En este proyecto mi rol fue el de desarrollar la parte web con React.",
-    image: "/FleT.png",
-    year: "2024",  
+    images: ["/FleT.png"],
+    year: "2024",
     type: [
-      "Aplicación Web", 
+      "Aplicación Web",
     ]
   },
 ];

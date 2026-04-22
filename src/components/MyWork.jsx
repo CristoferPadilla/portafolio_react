@@ -1,5 +1,76 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const ProjectCarousel = ({ images, projectName, openModal }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [images]);
+
+  if (!images || images.length === 0) return null;
+
+  return (
+    <div className="relative w-full h-auto group overflow-hidden rounded-lg shadow-lg">
+      <img
+        src={images[currentIndex]}
+        alt={`${projectName} image ${currentIndex + 1}`}
+        className="w-full h-auto object-cover cursor-pointer transition-opacity duration-500"
+        loading="lazy"
+        onClick={() => openModal(images[currentIndex])}
+      />
+      {images.length > 1 && (
+        <>
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIndex(idx);
+                }}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  idx === currentIndex ? "bg-white" : "bg-white/50 hover:bg-white/80"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+            }}
+            className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            &#10094;
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+            }}
+            className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            &#10095;
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
+ProjectCarousel.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  projectName: PropTypes.string.isRequired,
+  openModal: PropTypes.func.isRequired,
+};
 
 export function MyWork({ myWork }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -24,12 +95,10 @@ export function MyWork({ myWork }) {
           {myWork.map((project, index) => (
             <div key={index} className={`md:flex gap-8 items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
               <div className="md:w-1/2">
-                <img
-                  src={project.image}
-                  alt={`${project.name} image`}
-                  className="w-full h-auto object-cover rounded-lg shadow-lg cursor-pointer"
-                  loading="lazy"
-                  onClick={() => openModal(project.image)}
+                <ProjectCarousel 
+                  images={project.images} 
+                  projectName={project.name} 
+                  openModal={openModal} 
                 />
               </div>
               <div className="md:w-1/2 mt-6 md:mt-0">
@@ -80,7 +149,7 @@ MyWork.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
-      image: PropTypes.string,
+      images: PropTypes.arrayOf(PropTypes.string),
       year: PropTypes.string,
       type: PropTypes.arrayOf(PropTypes.string),
     })
