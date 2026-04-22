@@ -196,7 +196,7 @@ export const myProjects = [
     name: "Motor de busqueda para agencias de viajes",
     description:
       "En el proceso de estos últimos meses, he estado desarrollando un motor de búsqueda personalizado para Agencias de Viajes utilizando Next.js y TailwindCSS. Este proyecto tiene como objetivo proporcionar a los usuarios una experiencia de búsqueda rápida y eficiente, con resultados relevantes y una interfaz intuitiva. He implementado características como autocompletado, filtros avanzados y paginación para mejorar la usabilidad.",
-    images: ["/Motor_de_busqueda.png", "/MBusqueda.png", "/Habitaciones.png", "/Mapa.png", "/Hospedajes.png"],
+    images: ["/Motor_de_busqueda.png", "/MBusqueda.png", "/Hospedajes.png", "/Habitaciones.png", "/Mapa.png"],
     year: "2025",
     type: [
       "Aplicación Web",
@@ -206,7 +206,7 @@ export const myProjects = [
     name: "Sistema de gestión para Tour Operadores",
     description:
       "Al igual que el motor de busqueda, he estado desarrollando un sistema de gestión integral para Tour Operadores utilizando Next.js y TailwindCSS. Este sistema está diseñado para facilitar la administración de reservas, itinerarios y clientes, proporcionando una interfaz intuitiva y funcionalidades robustas. He implementado características como gestión de usuarios, generación de informes y automatización de tareas administrativas para optimizar las operaciones diarias de los tour operadores.",
-    images: ["/TourOperador.png", "/OpTour.png", "/PuntoVenta.png", "/Hoteles.png", "/Chat.png"],
+    images: ["/TourOperador.png", "/OpTour.png", "/Hoteles.png", "/PuntoVenta.png", "/Chat.png"],
     year: "2025",
     type: [
       "Aplicación Web",

@@ -23,15 +23,15 @@ export function AbilitysList({ abilities }) {
         >
           <ul className="tag-list scroller__inner">
             {duplicatedList.map((ability, index) => (
-              <li key={index} className="relative">
+              <li key={index} className="relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(20,184,166,0.4)] cursor-pointer border border-transparent hover:border-teal-500/30">
                 <div className="flex flex-col items-center justify-center">
                   <img
                     src={ability.icon}
                     alt={`${ability.name} icon`}
-                    className="w-16 h-16 object-contain"
+                    className="w-16 h-16 object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-md"
                     loading="lazy"
                   />
-                  <p className="text-white mt-2 text-base">
+                  <p className="text-white mt-3 text-base font-medium group-hover:text-teal-300 transition-colors">
                     {ability.name}
                   </p>
                 </div>
