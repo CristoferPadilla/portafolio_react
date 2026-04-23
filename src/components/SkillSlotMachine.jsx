@@ -83,7 +83,7 @@ export function SkillSlotMachine({ abilities }) {
     <section className="bg-gray-50 pb-20 pt-10 overflow-hidden">
       <div className="container mx-auto px-4 text-center">
         <p className="text-gray-600 mb-12 max-w-xl mx-auto text-lg">
-          ¿Quieres conocer más sobre mis habilidades? Te aconsejo tirar de la palanca.
+          ¿Quieres conocer más sobre mis habilidades y herramientas que uso? Te aconsejo tirar de la palanca.
         </p>
 
         <motion.div
@@ -91,19 +91,19 @@ export function SkillSlotMachine({ abilities }) {
           animate={{ y: [-3, 3, -3] }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
         >
-          <div className="bg-gradient-to-b from-[#0A2D2E] to-teal-950 p-6 md:p-8 rounded-3xl border-8 border-teal-800 shadow-[0_20px_50px_rgba(10,45,46,0.6)] relative">
-            <div className="absolute -top-7 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-400 to-teal-500 text-white font-black text-2xl px-8 py-1 rounded-full border-4 border-teal-300 shadow-[0_0_30px_rgba(20,184,166,0.8)] z-20 uppercase tracking-widest flex items-center gap-2">
+          <div className="bg-gradient-to-b from-[#0A2D2E] to-teal-950 p-3 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-teal-800 shadow-[0_20px_50px_rgba(10,45,46,0.6)] relative z-10">
+            <div className="absolute -top-5 sm:-top-7 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-400 to-teal-500 text-white font-black text-sm sm:text-xl md:text-2xl px-4 sm:px-8 py-1 rounded-full border-2 sm:border-4 border-teal-300 shadow-[0_0_30px_rgba(20,184,166,0.8)] z-20 uppercase tracking-widest flex items-center gap-1 sm:gap-2 whitespace-nowrap">
               <span className="animate-pulse"></span> Mis habilidades <span className="animate-pulse"></span>
             </div>
-            <div className="bg-white p-3 rounded-xl border-4 border-teal-700 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5)] flex gap-2 relative overflow-hidden">
+            <div className="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 sm:border-4 border-teal-700 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5)] flex gap-1 sm:gap-2 relative overflow-hidden">
 
-              <div className="absolute top-[106px] left-0 right-0 h-[100px] border-y-4 border-teal-500/80 bg-teal-500/15 z-10 pointer-events-none shadow-[0_0_15px_rgba(20,184,166,0.5)] flex items-center justify-between px-2">
-                <div className="w-4 h-4 rounded-full bg-teal-400 shadow-[0_0_10px_teal] animate-pulse"></div>
-                <div className="w-4 h-4 rounded-full bg-teal-400 shadow-[0_0_10px_teal] animate-pulse"></div>
+              <div className="absolute top-[106px] left-0 right-0 h-[100px] border-y-2 sm:border-y-4 border-teal-500/80 bg-teal-500/15 z-10 pointer-events-none shadow-[0_0_15px_rgba(20,184,166,0.5)] flex items-center justify-between px-1 sm:px-2">
+                <div className="w-2 h-2 sm:w-4 sm:h-4 rounded-full bg-teal-400 shadow-[0_0_10px_teal] animate-pulse"></div>
+                <div className="w-2 h-2 sm:w-4 sm:h-4 rounded-full bg-teal-400 shadow-[0_0_10px_teal] animate-pulse"></div>
               </div>
 
               {reels.map((strip, reelIndex) => (
-                <div key={reelIndex} className="w-20 md:w-28 h-[300px] bg-teal-50 rounded-lg overflow-hidden relative shadow-[inset_0_0_20px_rgba(0,0,0,0.15)] border border-teal-200">
+                <div key={reelIndex} className="w-[65px] sm:w-20 md:w-28 h-[300px] bg-teal-50 rounded-md sm:rounded-lg overflow-hidden relative shadow-[inset_0_0_20px_rgba(0,0,0,0.15)] border border-teal-200">
                   <motion.div
                     className="flex flex-col w-full absolute top-0 left-0"
                     animate={{ y: isSpinning ? -(strip.length - VISIBLE_ITEMS) * ITEM_HEIGHT : 0 }}
@@ -114,37 +114,37 @@ export function SkillSlotMachine({ abilities }) {
                   >
                     {strip.map((ability, itemIndex) => (
                       <div key={`${reelIndex}-${itemIndex}`} className="w-full h-[100px] flex flex-col items-center justify-center border-b border-gray-200 bg-white">
-                        <img src={ability.icon} alt={ability.name} className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm mb-1" />
-                        <p className="text-[9px] md:text-[11px] font-bold text-gray-700 truncate w-full px-1 text-center leading-tight">{ability.name}</p>
+                        <img src={ability.icon} alt={ability.name} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain drop-shadow-sm mb-1" />
+                        <p className="text-[8px] sm:text-[9px] md:text-[11px] font-bold text-gray-700 truncate w-full px-1 text-center leading-tight">{ability.name}</p>
                       </div>
                     ))}
                   </motion.div>
                 </div>
               ))}
             </div>
-            <div className="mt-4 flex justify-between items-center px-4">
-              <div className="flex gap-2">
-                {[1, 2, 3].map(i => <div key={i} className="w-3 h-3 rounded-full bg-teal-400 shadow-[0_0_8px_teal]"></div>)}
+            <div className="mt-2 sm:mt-4 flex justify-between items-center px-2 sm:px-4">
+              <div className="flex gap-1 sm:gap-2">
+                {[1, 2, 3].map(i => <div key={i} className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-teal-400 shadow-[0_0_8px_teal]"></div>)}
               </div>
-              <div className="bg-teal-950 px-4 py-1 rounded border border-teal-700 text-teal-300 font-mono text-sm shadow-inner">
+              <div className="bg-teal-950 px-2 sm:px-4 py-1 rounded border border-teal-700 text-teal-300 font-mono text-[10px] sm:text-sm shadow-inner">
                 WIN PAYS
               </div>
-              <div className="flex gap-2">
-                {[1, 2, 3].map(i => <div key={i} className="w-3 h-3 rounded-full bg-teal-400 shadow-[0_0_8px_teal]"></div>)}
+              <div className="flex gap-1 sm:gap-2">
+                {[1, 2, 3].map(i => <div key={i} className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-teal-400 shadow-[0_0_8px_teal]"></div>)}
               </div>
             </div>
           </div>
 
-          <div className="relative h-[250px] w-12 md:w-16 bg-gradient-to-r from-[#0A2D2E] to-teal-800 rounded-r-3xl border-y-4 border-r-4 border-teal-700 flex justify-center py-4 shadow-2xl ml-[-4px] z-[-1]">
-            <div className="w-2 h-[180px] bg-black rounded-full absolute top-8 shadow-inner"></div>
+          <div className="relative h-[250px] w-10 sm:w-12 md:w-16 bg-gradient-to-r from-[#0A2D2E] to-teal-800 rounded-r-2xl sm:rounded-r-3xl border-y-2 sm:border-y-4 border-r-2 sm:border-r-4 border-teal-700 flex justify-center py-4 shadow-2xl ml-[-2px] sm:ml-[-4px] z-0 mt-8 sm:mt-12">
+            <div className="w-1.5 sm:w-2 h-[180px] bg-black rounded-full absolute top-8 shadow-inner"></div>
             <motion.div
               className="absolute w-4 md:w-6 h-24 bg-gradient-to-b from-gray-300 to-gray-500 rounded-full cursor-pointer z-10 shadow-xl flex flex-col items-center justify-start hover:brightness-110"
               animate={{ y: leverPulled ? 110 : 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
               onClick={spinSlots}
             >
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-teal-400 to-teal-700 rounded-full shadow-[0_10px_15px_rgba(0,0,0,0.6)] -mt-6 md:-mt-8 border-2 border-teal-800/50 flex items-center justify-center">
-                <div className="w-4 h-4 bg-white/30 rounded-full absolute top-2 left-2 blur-[1px]"></div>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-br from-teal-400 to-teal-700 rounded-full shadow-[0_10px_15px_rgba(0,0,0,0.6)] -mt-5 sm:-mt-6 md:-mt-8 border-2 border-teal-800/50 flex items-center justify-center">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white/30 rounded-full absolute top-1.5 sm:top-2 left-1.5 sm:left-2 blur-[1px]"></div>
               </div>
             </motion.div>
           </div>
