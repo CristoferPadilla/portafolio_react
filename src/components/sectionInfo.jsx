@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Typewriter = ({ texts, delay = 100 }) => {
   const [currentText, setCurrentText] = useState('');
@@ -30,6 +31,32 @@ const Typewriter = ({ texts, delay = 100 }) => {
 };
 
 export function InfoSection({ descriptionProfile }) {
+  const [showCvModal, setShowCvModal] = useState(false);
+  const [isLoadingIframe, setIsLoadingIframe] = useState(true);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowCvModal(false);
+      }
+    };
+
+    if (showCvModal) {
+      setIsLoadingIframe(true);
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.body.removeAttribute('data-hide-cursor');
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      document.body.removeAttribute('data-hide-cursor');
+    };
+  }, [showCvModal]);
+
   return (
     <article className="info-container">
       <div className="info-div" style={{ textAlign: "center", position: "relative", zIndex: 10 }}>
@@ -48,7 +75,7 @@ export function InfoSection({ descriptionProfile }) {
         <div className="flex flex-wrap gap-4 mt-8">
           {/* Descargar CV (Primary) */}
           <a
-            href="https://drive.google.com/uc?export=download&id=1Cy5oWQBAWyNAAszeDZU5FMJmxaBVofz4"
+            href="https://drive.google.com/uc?export=download&id=1DidEAxlv0oMmzDMhOqW6v7Nl3Zx6xHkm"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-[#0A2D2E] text-white px-6 py-3 rounded-full font-medium hover:bg-[#0d3b3c] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
@@ -59,19 +86,18 @@ export function InfoSection({ descriptionProfile }) {
             Descargar CV
           </a>
 
-          {/* Ver CV (Secondary) */}
-          <a
-            href="https://drive.google.com/file/d/1Cy5oWQBAWyNAAszeDZU5FMJmxaBVofz4/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 border-2 border-[#0A2D2E] text-[#0A2D2E] bg-transparent px-6 py-3 rounded-full font-medium hover:bg-[#0A2D2E] hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+          {/* Ver CV (Secondary - abre Modal Preview) */}
+          <button
+            type="button"
+            onClick={() => setShowCvModal(true)}
+            className="flex items-center gap-2 border-2 border-[#0A2D2E] text-[#0A2D2E] bg-transparent px-6 py-3 rounded-full font-medium hover:bg-[#0A2D2E] hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
               <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
             </svg>
             Ver CV
-          </a>
+          </button>
         </div>
 
         {/* Redes Sociales */}
@@ -95,6 +121,71 @@ export function InfoSection({ descriptionProfile }) {
           <img src="/h.jpg" alt="Foto de perfil" className="relative z-10" style={{ border: '4px solid #0A2D2E' }} />
         </div>
       </aside>
+
+      {/* Modal de Vista Previa del CV */}
+      <AnimatePresence>
+        {showCvModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCvModal(false)}
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 md:p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', duration: 0.4 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-full max-w-5xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
+            >
+              {/* Header del Modal */}
+              <div className="flex items-center justify-between px-6 py-4 bg-[#0A2D2E] text-white">
+                <div className="flex items-center gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <h3 className="text-lg md:text-xl font-bold text-white">Vista previa de mi CV</h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowCvModal(false)}
+                    className="text-gray-300 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                    aria-label="Cerrar vista previa"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Contenido del iFrame */}
+              <div
+                className="flex-1 w-full bg-gray-100 relative"
+                onMouseEnter={() => document.body.setAttribute('data-hide-cursor', 'true')}
+                onMouseLeave={() => document.body.removeAttribute('data-hide-cursor')}
+              >
+                {isLoadingIframe && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 z-10 pointer-events-none">
+                    <div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mb-3"></div>
+                    <p className="text-gray-700 font-medium text-sm">Cargando vista previa...</p>
+                  </div>
+                )}
+                <iframe
+                  src="https://drive.google.com/file/d/1DidEAxlv0oMmzDMhOqW6v7Nl3Zx6xHkm/preview"
+                  className="w-full h-full border-0"
+                  title="Vista Previa Curriculum Vitae"
+                  allow="autoplay"
+                  onLoad={() => setIsLoadingIframe(false)}
+                ></iframe>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </article>
   );
 }

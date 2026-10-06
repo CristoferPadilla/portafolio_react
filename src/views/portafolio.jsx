@@ -12,6 +12,7 @@ import { descriptionProfile, myAbilities, myProjects, myExperiences } from "../d
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
     const onMouseMove = (e) => {
@@ -23,18 +24,37 @@ const CustomCursor = () => {
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button'
       );
+
+      if (document.body.getAttribute('data-hide-cursor') === 'true') {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
     };
 
+    const handleMutation = () => {
+      setIsHidden(document.body.getAttribute('data-hide-cursor') === 'true');
+    };
+
+    const observer = new MutationObserver(handleMutation);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-hide-cursor'] });
+
     window.addEventListener('mousemove', onMouseMove);
-    return () => window.removeEventListener('mousemove', onMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <>
       <style>{`
         @media (min-width: 768px) {
-          * {
+          body:not([data-hide-cursor="true"]) * {
             cursor: none !important;
+          }
+          body[data-hide-cursor="true"] * {
+            cursor: auto !important;
           }
         }
       `}</style>
@@ -47,6 +67,7 @@ const CustomCursor = () => {
           y: position.y - 12,
           scale: isPointer ? 1.2 : 1,
           rotate: isPointer ? -45 : 0,
+          opacity: isHidden ? 0 : 1,
         }}
         transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.5 }}
       >
@@ -64,7 +85,7 @@ const CustomCursor = () => {
         animate={{
           x: position.x - 16,
           y: position.y + 12,
-          opacity: isPointer ? 0.9 : 0.4,
+          opacity: isHidden ? 0 : (isPointer ? 0.9 : 0.4),
           scale: isPointer ? 1.5 : 1,
         }}
         transition={{ type: 'spring', stiffness: 100, damping: 20, mass: 0.8 }}

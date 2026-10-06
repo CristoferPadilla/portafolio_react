@@ -137,13 +137,14 @@ export const myAbilities = [
 export const myExperiences = [
   {
     company: "Grupo Avaa",
-    role: "Desarrollador de Software Frontend",
-    dateRange: "septiembre 2025 – Actualidad",
+    role: "Desarrollador de Software",
+    dateRange: "septiembre 2025 – octubre 2026",
     details: [
       "Desarrollo de interfaces modernas y responsivas en Next.js, TypeScript y Tailwind CSS.",
       "Integración de componentes dinámicos en colaboración con backend y diseño.",
       "Aplicación de principios de Clean Code.",
-      "Participación en metodologías ágiles y planificación de funcionalidades."
+      "Participación en metodologías ágiles y planificación de funcionalidades.",
+      "Se trabajó en colaboración con “Omnibees” para la integración de su API en el sistema."
     ],
   },
   {
