@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { PortafolioLi } from "../components/portafolioLi";
 import { InfoSection } from "../components/sectionInfo";
 import { AbilitysList } from "../components/abilitysList";
-import { SkillSlotMachine } from "../components/SkillSlotMachine";
+import { SkillAstronautHUD } from "../components/SkillAstronautHUD";
 import { MyWork } from "../components/MyWork";
 import { ExperienceSection } from "../components/experienceSection";
 import { ContactFooter } from "../components/contactFooter";
@@ -165,8 +165,7 @@ export function Portafolio() {
           animate={currentSection === 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
         >
-          {/* <AbilitysList abilities={myAbilities} /> */}
-          <SkillSlotMachine abilities={myAbilities} />
+          <SkillAstronautHUD abilities={myAbilities} />
         </motion.div>
 
         <motion.div

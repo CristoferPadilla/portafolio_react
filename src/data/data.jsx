@@ -91,6 +91,20 @@ export const myAbilities = [
     tags: "Backend / Bases de datos",
   },
   {
+    name: "NestJS",
+    description: "Framework progresivo de Node.js para desarrollo backend escalable",
+    icon: "/nestjs.svg",
+    date: "Desde 2025",
+    tags: "Backend / Bases de datos",
+  },
+  {
+    name: "Supabase",
+    description: "Plataforma backend open source basada en PostgreSQL",
+    icon: "/supabase.svg",
+    date: "Desde 2025",
+    tags: "Backend / Bases de datos",
+  },
+  {
     name: "Clean Code",
     description: "Buenas prácticas de desarrollo",
     icon: "/code.svg",
