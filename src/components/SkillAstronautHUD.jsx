@@ -36,7 +36,7 @@ export function SkillAstronautHUD({ abilities }) {
           width: 6px;
         }
         .hud-scrollbar::-webkit-scrollbar-track {
-          background: rgba(3, 20, 21, 0.8);
+          background: rgba(10, 45, 46, 0.8);
           border-radius: 9999px;
         }
         .hud-scrollbar::-webkit-scrollbar-thumb {
@@ -49,12 +49,12 @@ export function SkillAstronautHUD({ abilities }) {
         }
         .hud-scrollbar {
           scrollbar-width: thin;
-          scrollbar-color: #2dd4bf rgba(3, 20, 21, 0.8);
+          scrollbar-color: #2dd4bf rgba(10, 45, 46, 0.8);
         }
       `}</style>
       <div className="container mx-auto max-w-5xl">
-        {/* PANEL PRINCIPAL HUD ESTILO NASA / SCI-FI ELEGANTE */}
-        <div className="bg-[#051c1d] border-2 border-teal-500/40 rounded-2xl p-5 sm:p-8 shadow-[0_20px_50px_rgba(10,45,46,0.35)] relative overflow-hidden">
+        {/* PANEL PRINCIPAL HUD CON LA PALETA DE LA MARCA (#0A2D2E) */}
+        <div className="bg-[#0A2D2E] border-2 border-teal-500/40 rounded-2xl p-5 sm:p-8 shadow-[0_20px_50px_rgba(10,45,46,0.3)] relative overflow-hidden">
           
           {/* Adornos HUD en esquinas */}
           <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-teal-400"></div>
@@ -63,11 +63,11 @@ export function SkillAstronautHUD({ abilities }) {
           <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-teal-400"></div>
 
           {/* BARRA SUPERIOR DE TELEMETRÍA */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-teal-800/60 pb-4 mb-6 gap-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-teal-800/80 pb-4 mb-6 gap-2">
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-teal-400 animate-ping"></span>
               <div>
-                <span className="text-[10px] font-mono tracking-widest text-teal-400 uppercase block">
+                <span className="text-[10px] font-mono tracking-widest text-teal-300 uppercase block">
                   STATUS: ONLINE 
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black tracking-wide text-white uppercase">
@@ -75,7 +75,7 @@ export function SkillAstronautHUD({ abilities }) {
                 </h2>
               </div>
             </div>
-            <div className="bg-teal-950/80 border border-teal-500/30 px-3 py-1 rounded font-mono text-[11px] text-teal-300">
+            <div className="bg-[#0D3B3C] border border-teal-500/40 px-3.5 py-1.5 rounded-lg font-mono text-[11px] text-teal-200 shadow-sm">
               MISIÓN: EN BUSCA DE UNA OPORTUNIDAD
             </div>
           </div>
@@ -83,10 +83,10 @@ export function SkillAstronautHUD({ abilities }) {
           {/* CUERPO DEL HUD EN DOS COLUMNAS */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* COLUMNA IZQUIERDA: PERFIL Y MÉTRICAS DE EXPERIENCIA (4 cols) */}
-            <div className="lg:col-span-4 bg-[#082627]/80 border border-teal-800/50 rounded-xl p-5 flex flex-col items-center text-center relative">
+            {/* COLUMNA IZQUIERDA: CONSTANTES VITALES Y MÉTRICAS DE EXPERIENCIA (4 cols) */}
+            <div className="lg:col-span-4 bg-[#0D3B3C]/80 border border-teal-700/50 rounded-xl p-5 flex flex-col items-center text-center relative">
               {/* MONITOR DE RITMO CARDÍACO / CONSTANTES VITALES HUD */}
-              <div className="w-full bg-[#031415] border border-teal-500/50 rounded-xl p-3.5 mb-4 relative overflow-hidden flex flex-col justify-between shadow-inner">
+              <div className="w-full bg-[#072526] border border-teal-500/50 rounded-xl p-3.5 mb-4 relative overflow-hidden flex flex-col justify-between shadow-inner">
                 {/* Cuadrícula Radar de Fondo */}
                 <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_right,#2dd4bf_1px,transparent_1px),linear-gradient(to_bottom,#2dd4bf_1px,transparent_1px)] bg-[size:16px_16px]"></div>
 
@@ -94,9 +94,9 @@ export function SkillAstronautHUD({ abilities }) {
                 <div className="flex items-center justify-between z-10 mb-1">
                   <div className="flex items-center gap-1.5 font-mono text-[10px]">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                    <span className="text-teal-400 font-bold tracking-wider">PULSE // ECG</span>
+                    <span className="text-teal-300 font-bold tracking-wider">PULSE // ECG</span>
                   </div>
-                  <span className="text-teal-300 font-mono text-[11px] font-bold bg-teal-950/80 px-2 py-0.5 rounded border border-teal-800">
+                  <span className="text-teal-200 font-mono text-[11px] font-bold bg-[#0A2D2E] px-2 py-0.5 rounded border border-teal-700">
                     78 BPM
                   </span>
                 </div>
@@ -124,7 +124,7 @@ export function SkillAstronautHUD({ abilities }) {
                 </div>
 
                 {/* Telemetría Vital Inferior */}
-                <div className="flex items-center justify-between font-mono text-[9px] text-teal-300/80 z-10 border-t border-teal-900/80 pt-1.5">
+                <div className="flex items-center justify-between font-mono text-[9px] text-teal-300/90 z-10 border-t border-teal-800/80 pt-1.5">
                   <span>VITAL: OPTIMAL</span>
                   <span>O2: 99%</span>
                   <span>SYS: 120/80</span>
@@ -135,33 +135,33 @@ export function SkillAstronautHUD({ abilities }) {
               <span className="text-xs font-mono text-teal-300 mb-4">INGENIERÍA</span>
 
               {/* BARRAS DE EXPERIENCIA POR TIEMPO */}
-              <div className="w-full space-y-3 font-mono text-[11px] text-left border-t border-teal-800/60 pt-4">
+              <div className="w-full space-y-3 font-mono text-[11px] text-left border-t border-teal-800/80 pt-4">
                 <div>
-                  <div className="flex justify-between text-gray-300 mb-1">
+                  <div className="flex justify-between text-gray-200 mb-1">
                     <span>FRONTEND</span>
                     <span className="text-teal-400 font-bold">1 AÑO</span>
                   </div>
-                  <div className="w-full bg-teal-950 rounded-full h-1.5 overflow-hidden border border-teal-800/60">
+                  <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[65%] shadow-[0_0_8px_teal]"></div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-gray-300 mb-1">
+                  <div className="flex justify-between text-gray-200 mb-1">
                     <span>MOBILE</span>
                     <span className="text-teal-400 font-bold">6 MESES</span>
                   </div>
-                  <div className="w-full bg-teal-950 rounded-full h-1.5 overflow-hidden border border-teal-800/60">
+                  <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[50%] shadow-[0_0_8px_teal]"></div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-gray-300 mb-1">
+                  <div className="flex justify-between text-gray-200 mb-1">
                     <span>BACKEND & DATABASE</span>
                     <span className="text-teal-400 font-bold">2 MESES</span>
                   </div>
-                  <div className="w-full bg-teal-950 rounded-full h-1.5 overflow-hidden border border-teal-800/60">
+                  <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[40%] shadow-[0_0_8px_teal]"></div>
                   </div>
                 </div>
@@ -179,8 +179,8 @@ export function SkillAstronautHUD({ abilities }) {
                     onClick={() => setActiveCategory(cat.id)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                       activeCategory === cat.id
-                        ? 'bg-teal-400 text-gray-950 shadow-[0_0_15px_rgba(45,212,191,0.6)]'
-                        : 'bg-teal-950/80 text-teal-300 border border-teal-800/60 hover:bg-teal-900/60'
+                        ? 'bg-teal-400 text-[#0A2D2E] font-extrabold shadow-[0_0_15px_rgba(45,212,191,0.5)]'
+                        : 'bg-[#0D3B3C] text-teal-200 border border-teal-700/60 hover:bg-[#144D4F] hover:text-white'
                     }`}
                   >
                     [{cat.label}]
@@ -202,11 +202,11 @@ export function SkillAstronautHUD({ abilities }) {
                       onMouseEnter={() => setSelectedTech(ability)}
                       className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all duration-200 cursor-pointer relative ${
                         isSelected
-                          ? 'bg-teal-950 border-teal-300 shadow-[0_0_15px_rgba(45,212,191,0.4)]'
-                          : 'bg-[#082627]/60 border-teal-900/40 hover:border-teal-500/50'
+                          ? 'bg-[#144D4F] border-teal-300 shadow-[0_0_15px_rgba(45,212,191,0.35)]'
+                          : 'bg-[#0D3B3C]/80 border-teal-800/60 hover:border-teal-400 hover:bg-[#144D4F]/80'
                       }`}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-teal-950 p-1.5 border border-teal-800/50 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-[#072526] p-1.5 border border-teal-700/60 flex items-center justify-center shrink-0">
                         <img src={ability.icon} alt={ability.name} className="w-full h-full object-contain" />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -226,18 +226,18 @@ export function SkillAstronautHUD({ abilities }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="bg-[#031415] border border-teal-500/50 rounded-xl p-4 relative font-mono"
+                    className="bg-[#072526] border border-teal-500/50 rounded-xl p-4 relative font-mono shadow-inner"
                   >
-                    <div className="flex items-center justify-between border-b border-teal-900 pb-2 mb-2">
+                    <div className="flex items-center justify-between border-b border-teal-800/80 pb-2 mb-2">
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-teal-400 font-bold">MODULE SPEC:</span>
                         <span className="text-sm font-black text-white uppercase">{selectedTech.name}</span>
                       </div>
-                      <span className="text-[10px] text-teal-300 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">
+                      <span className="text-[10px] text-teal-200 bg-[#0A2D2E] px-2 py-0.5 rounded border border-teal-700">
                         DEPLOYED: {selectedTech.date || '2023'}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-300 font-sans leading-relaxed">
+                    <p className="text-xs text-gray-200 font-sans leading-relaxed">
                       {selectedTech.description}
                     </p>
                   </motion.div>

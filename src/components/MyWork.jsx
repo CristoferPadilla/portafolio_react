@@ -24,7 +24,7 @@ const ProjectCarousel = ({ images, projectName, openModal }) => {
         alt={`${projectName} image ${currentIndex + 1}`}
         className="w-full h-auto object-cover cursor-pointer transition-transform duration-700 group-hover:scale-105"
         loading="lazy"
-        onClick={() => openModal(images[currentIndex])}
+        onClick={() => openModal(images, currentIndex)}
       />
       {images.length > 1 && (
         <>
@@ -48,7 +48,7 @@ const ProjectCarousel = ({ images, projectName, openModal }) => {
               e.stopPropagation();
               setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
             }}
-            className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/40 hover:bg-teal-600 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
+            className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/40 hover:bg-teal-600 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 cursor-pointer"
           >
             &#10094;
           </button>
@@ -57,7 +57,7 @@ const ProjectCarousel = ({ images, projectName, openModal }) => {
               e.stopPropagation();
               setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
             }}
-            className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/40 hover:bg-teal-600 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
+            className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/40 hover:bg-teal-600 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 cursor-pointer"
           >
             &#10095;
           </button>
@@ -74,19 +74,62 @@ ProjectCarousel.propTypes = {
 };
 
 export function MyWork({ myWork }) {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [modalData, setModalData] = useState(null);
 
   if (!myWork || myWork.length === 0) {
     return <p className="text-gray-700 text-center">No projects found.</p>;
   }
 
-  const openModal = (image) => {
-    setSelectedImage(image);
+  const openModal = (images, index) => {
+    setModalData({ images, currentIndex: index });
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setModalData(null);
   };
+
+  const nextModalImage = (e) => {
+    if (e) e.stopPropagation();
+    setModalData((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        currentIndex: (prev.currentIndex + 1) % prev.images.length,
+      };
+    });
+  };
+
+  const prevModalImage = (e) => {
+    if (e) e.stopPropagation();
+    setModalData((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!modalData) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') nextModalImage();
+      if (e.key === 'ArrowLeft') prevModalImage();
+    };
+
+    if (modalData) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [modalData]);
 
   return (
     <section className="bg-white py-24">
@@ -150,22 +193,54 @@ export function MyWork({ myWork }) {
         </div>
       </div>
 
-      {/* Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity" onClick={closeModal}>
-          <div className="relative max-w-5xl max-h-full">
-            <img
-              src={selectedImage}
-              alt="Project image"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
+      {/* Lightbox Modal con Navegación de Galería de Fotos */}
+      {modalData && modalData.images && modalData.images.length > 0 && (
+        <div
+          className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-[10000] p-4 md:p-8 select-none"
+          onClick={closeModal}
+        >
+          <div className="relative max-w-5xl max-h-[90vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            {/* Botón Cerrar */}
             <button
-              className="absolute -top-4 -right-4 text-white text-2xl bg-teal-600 rounded-full w-10 h-10 flex items-center justify-center hover:bg-teal-500 shadow-lg transition-transform hover:scale-110"
+              className="absolute -top-12 right-0 text-white/80 hover:text-white text-3xl p-2 transition-colors cursor-pointer"
               onClick={closeModal}
+              aria-label="Cerrar modal"
             >
-              &times;
+              ✕
             </button>
+
+            {/* Imagen Principal Ampliada */}
+            <img
+              key={modalData.currentIndex}
+              src={modalData.images[modalData.currentIndex]}
+              alt={`Imagen ${modalData.currentIndex + 1}`}
+              className="max-w-full max-h-[82vh] object-contain rounded-xl shadow-2xl border border-gray-800"
+            />
+
+            {/* Controles de Navegación entre fotos */}
+            {modalData.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevModalImage}
+                  className="absolute left-2 sm:-left-12 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-teal-600 text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-300 shadow-lg cursor-pointer"
+                  aria-label="Imagen anterior"
+                >
+                  &#10094;
+                </button>
+                <button
+                  onClick={nextModalImage}
+                  className="absolute right-2 sm:-right-12 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-teal-600 text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-300 shadow-lg cursor-pointer"
+                  aria-label="Imagen siguiente"
+                >
+                  &#10095;
+                </button>
+
+                {/* Contador de Fotos */}
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-black/80 text-teal-400 px-4 py-1 rounded-full text-xs font-mono border border-teal-800/80 shadow-md">
+                  {modalData.currentIndex + 1} / {modalData.images.length}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
