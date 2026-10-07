@@ -139,7 +139,7 @@ export function SkillAstronautHUD({ abilities }) {
                 <div>
                   <div className="flex justify-between text-gray-200 mb-1">
                     <span>FRONTEND</span>
-                    <span className="text-teal-400 font-bold">1 AÑO</span>
+                    <span className="text-teal-400 font-bold">1 AÑO Y 6 MESES</span>
                   </div>
                   <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[65%] shadow-[0_0_8px_teal]"></div>
@@ -149,7 +149,7 @@ export function SkillAstronautHUD({ abilities }) {
                 <div>
                   <div className="flex justify-between text-gray-200 mb-1">
                     <span>MOBILE</span>
-                    <span className="text-teal-400 font-bold">6 MESES</span>
+                    <span className="text-teal-400 font-bold">1 AÑO</span>
                   </div>
                   <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[50%] shadow-[0_0_8px_teal]"></div>
@@ -159,7 +159,7 @@ export function SkillAstronautHUD({ abilities }) {
                 <div>
                   <div className="flex justify-between text-gray-200 mb-1">
                     <span>BACKEND & DATABASE</span>
-                    <span className="text-teal-400 font-bold">2 MESES</span>
+                    <span className="text-teal-400 font-bold">6 MESES</span>
                   </div>
                   <div className="w-full bg-[#072526] rounded-full h-1.5 overflow-hidden border border-teal-800/80">
                     <div className="bg-teal-400 h-full rounded-full w-[40%] shadow-[0_0_8px_teal]"></div>
